@@ -12,6 +12,7 @@ Live maps and guides for finding charging stations in India (15 cities), by SKM 
 - /free-ev-charging-stations-near-me/ — Free EV charging stations near me
 - /ev-charging-cost-in-india/ — EV charging cost in India
 - /battery-swapping-stations-near-me/ — Battery swapping stations near me
+- /two-wheeler-ev-charging-stations-near-me/ — 2-wheeler EV charging stations near me
 - /highway-ev-charging-stations-in-india/ — Highway EV charging stations in India
 
 ## City pages
