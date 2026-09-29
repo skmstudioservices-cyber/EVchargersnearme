@@ -1,10 +1,12 @@
 # EV Chargers Near Me
 
-SKM Studio Network site - coming soon.
+live maps and plain-English guides for finding EV charging stations across 15 Indian cities. One live map, clear answers, no signup — built for people who just need to find one now.
 
-## Deploy this repo
+- Live OpenStreetMap-powered maps for 15 Indian cities, refreshed monthly
+- DIGIPIN-precise directions from any pin
+- Plain-English guides for real situations
+- No accounts, no tracking beyond anonymous stats
 
-**Cloudflare Pages:** Connect repo -> Framework preset: None -> Build command: (leave empty) -> Build output directory: `/`
-**GitHub Pages:** Settings -> Pages -> Deploy from branch -> main / root. The included `.nojekyll` file makes raw files serve as-is.
+Contact: skmstudio.services@gmail.com · [Privacy policy](https://evchargersnearme.pages.dev/privacy/) · [About](https://evchargersnearme.pages.dev/about/)
 
-Placeholder `index.html` carries `noindex` - remove that meta tag when the real site is ready.
+Map data © OpenStreetMap contributors (ODbL).
