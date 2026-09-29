@@ -14,6 +14,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZE1GR23S8E"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZE1GR23S8E');</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='#16a34a'/><text x='50' y='68' font-size='46' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--ac:#16a34a;--acsoft:#dcfce7}
@@ -40,6 +41,16 @@ h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:6px 0 4px}
 table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
 th,td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
 th{background:#f1f5f9}
+#kwmap{height:380px;border-radius:12px;border:1px solid #e2e8f0;z-index:1;background:#e2e8f0}
+.mapstat{font-weight:700;color:#0f172a;font-size:.92rem}
+.kchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.kwc{padding:7px 13px;border-radius:99px;border:2px solid var(--ac);background:#fff;color:#0f172a;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
+.kwc.on{background:var(--ac);color:#fff}
+.mapbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.nearbtn{padding:12px 20px;border-radius:12px;border:none;background:#0f172a;color:#fff;font-weight:800;cursor:pointer;font-size:.92rem;font-family:inherit}
+.mapcta{flex:1;min-width:220px;display:block;text-align:center;background:var(--ac);color:#fff;font-weight:800;font-size:1.02rem;padding:14px 20px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.mapcta:hover{filter:brightness(1.09);color:#fff}
+@media(max-width:700px){#kwmap{height:300px}}
 details{border:1px solid #e2e8f0;border-radius:10px;margin:8px 0;background:#fff}
 summary{padding:12px 14px;font-weight:600;cursor:pointer;font-size:.93rem}
 details p{padding:0 14px 12px;color:#334155;font-size:.92rem}
@@ -65,6 +76,7 @@ footer a{color:#64748b}
 <p class="updated">Page last updated 29 September 2026</p>
 <p class="lead">Need a quick top-up, not an overnight charge? DC fast chargers take a typical Indian EV to 80% in about 45–60 minutes.</p>
 <div class="ans"><b>Quick answer</b>A <b>DC fast charger (25–60 kW)</b> charges a typical Indian EV to 80% in roughly <b>45–60 minutes</b>. Find them on our <a href="/">live map</a> (filter for CCS2 pins), then check live availability in the operator's app. Most Indian rapid chargers use the <b>CCS2</b> connector.</div>
+<div class="card" style="border:2px solid var(--ac)"><h2>🗺 DC fast charging stations near me — live map</h2><p class="mapstat" id="kwcount">Loading live map…</p><div id="kwmap"></div><div id="kwchips" class="kchips"></div><div class="mapbtns"><button id="kwnear" class="nearbtn" style="display:none">📍 Use my location</button><a class="mapcta" href="/">Open the full map &mdash; DIGIPIN directions &rarr;</a></div><p style="font-size:.75rem;color:#64748b;margin-top:8px">Tap any pin for details · data &copy; OpenStreetMap contributors (ODbL)</p></div>
 <div class="card"><h2>What DC fast charging means</h2><p>AC chargers feed your car's onboard charger; DC fast chargers feed the battery directly, which is why they are much quicker. Rapid charging slows down above 80% to protect the battery — plan your stop around 80%, not 100%.</p></div><div class="card"><h2>Where DC fast chargers are located</h2><ul style="list-style:disc"><li><b>Highways:</b> every 200–250 km on major corridors — see our highway charging guide.</li><li><b>City hubs:</b> malls, metro stations, petrol pumps and dedicated charging bays.</li><li><b>Operators:</b> Statiq, ChargeZone, Tata Power and Jio-bp Pulse run most Indian DC units.</li></ul></div><div class="card"><h2>What DC fast charging costs</h2><p>Public charging is billed per kWh. DC fast charging costs more than AC — typically in the range of ₹18–28 per kWh depending on network, state and time of day. Home charging remains the cheapest option for daily use.</p></div>
 <div class="card"><h2>❓ DC fast charging stations near me &mdash; FAQ</h2><details><summary>How fast is a DC fast charger?</summary><p>Most Indian DC units are 25–60 kW and charge a typical EV to 80% in 45–60 minutes. Newer 120–240 kW units on highways are even quicker.</p></details><details><summary>Is CCS2 the same as fast charging?</summary><p>CCS2 is the connector standard most Indian DC fast chargers use. “CCS2” on a charger almost always means DC fast charging.</p></details><details><summary>Does DC fast charging damage the battery?</summary><p>Occasional DC fast charging is fine — cars manage battery protection themselves. Charging to 80% and not relying on DC every day keeps the battery healthiest.</p></details><details><summary>How do I find a working fast charger near me right now?</summary><p>Use our live map to locate CCS2 pins, then check the operator's app for live status before driving there.</p></details><details><summary>Why does charging slow down after 80%?</summary><p>The car's battery management system reduces charging speed above 80% to protect cell life. That last 20% can take as long as the first 80%.</p></details></div>
 <div class="card"><h2>🔗 Related guides</h2><div class="chips"><a class="chip" href="/">🗺 Live map</a><a class="chip" href="/car-charging-stations-near-me/">Car charging stations</a><a class="chip" href="/highway-ev-charging-stations-in-india/">Highway charging</a><a class="chip" href="/ev-charging-cost-in-india/">Charging costs</a></div></div>
@@ -72,6 +84,9 @@ footer a{color:#64748b}
 </main>
 <footer>EV Chargers Near Me &mdash; an SKM Studio Network site &middot; <a href="https://evchargersnearme.pages.dev/">https://evchargersnearme.pages.dev</a> &middot; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
 General information only &middot; Emergency? Call <b>112</b></footer>
+<script>window.KWMAP_CFG={"ac": "#16a34a", "poiname": "charging station", "def": "delhi", "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Free", "b": 1}], "cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}};</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/kwmap.js"></script>
 <script defer src="/feedback.js" data-site="ev"></script>
 </body>
 </html>
