@@ -14,6 +14,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZE1GR23S8E"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZE1GR23S8E');</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='#16a34a'/><text x='50' y='68' font-size='46' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--ac:#16a34a;--acsoft:#dcfce7}
@@ -40,6 +41,16 @@ h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:6px 0 4px}
 table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
 th,td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
 th{background:#f1f5f9}
+#kwmap{height:380px;border-radius:12px;border:1px solid #e2e8f0;z-index:1;background:#e2e8f0}
+.mapstat{font-weight:700;color:#0f172a;font-size:.92rem}
+.kchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.kwc{padding:7px 13px;border-radius:99px;border:2px solid var(--ac);background:#fff;color:#0f172a;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
+.kwc.on{background:var(--ac);color:#fff}
+.mapbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.nearbtn{padding:12px 20px;border-radius:12px;border:none;background:#0f172a;color:#fff;font-weight:800;cursor:pointer;font-size:.92rem;font-family:inherit}
+.mapcta{flex:1;min-width:220px;display:block;text-align:center;background:var(--ac);color:#fff;font-weight:800;font-size:1.02rem;padding:14px 20px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.mapcta:hover{filter:brightness(1.09);color:#fff}
+@media(max-width:700px){#kwmap{height:300px}}
 details{border:1px solid #e2e8f0;border-radius:10px;margin:8px 0;background:#fff}
 summary{padding:12px 14px;font-weight:600;cursor:pointer;font-size:.93rem}
 details p{padding:0 14px 12px;color:#334155;font-size:.92rem}
@@ -65,6 +76,7 @@ footer a{color:#64748b}
 <p class="updated">Page last updated 29 September 2026</p>
 <p class="lead">For electric two- and three-wheelers, swapping a depleted battery for a charged one takes under two minutes — no charging wait at all.</p>
 <div class="ans"><b>Quick answer</b><b>Battery swapping</b> replaces your empty battery with a fully charged one at an automated station, usually in under two minutes. It is mainly for <b>electric scooters and rickshaws</b> — operators like Battery Smart, Sun Mobility and Honda Power Pack Energy run swap networks in Indian cities, paid per swap by app.</div>
+<div class="card" style="border:2px solid var(--ac)"><h2>🗺 Battery swapping stations near me — live map</h2><p class="mapstat" id="kwcount">Loading live map…</p><div id="kwmap"></div><div id="kwchips" class="kchips"></div><div class="mapbtns"><button id="kwnear" class="nearbtn" style="display:none">📍 Use my location</button><a class="mapcta" href="/">Open the full map &mdash; DIGIPIN directions &rarr;</a></div><p style="font-size:.75rem;color:#64748b;margin-top:8px">Tap any pin for details · data &copy; OpenStreetMap contributors (ODbL)</p></div>
 <div class="card"><h2>How swapping works</h2><p>Ride to a swap station, scan the QR code, and the cabinet releases a charged battery in exchange for your depleted one. Payment is per swap through the app — no parking while you charge.</p></div><div class="card"><h2>Who offers swapping in India</h2><ul style="list-style:disc"><li><b>Battery Smart:</b> a fast-growing swap network across North Indian cities and beyond.</li><li><b>Sun Mobility:</b> swapping for two- and three-wheelers, including fleet partnerships.</li><li><b>Honda Power Pack Energy:</b> battery-sharing for electric rickshaws and two-wheelers.</li><li>Several OEMs bundle swap access with their scooters.</li></ul></div><div class="card"><h2>Swap vs charge — which is cheaper?</h2><p>Per-swap pricing is built for gig riders who cannot park and charge. For a personal scooter charged at home, overnight AC charging is usually cheaper per km; swapping wins on time and for riders without home charging.</p></div>
 <div class="card"><h2>❓ Battery swapping stations near me &mdash; FAQ</h2><details><summary>What is battery swapping?</summary><p>Exchanging a depleted battery for a charged one at a swap station — taking under two minutes instead of hours of charging.</p></details><details><summary>Which vehicles support battery swapping?</summary><p>Mainly electric scooters and three-wheeler rickshaws with removable batteries designed for swap networks.</p></details><details><summary>How much does a swap cost?</summary><p>Swapping is priced per swap or per kWh used, set by the operator and city — typically competitive with public fast charging for two-wheelers.</p></details><details><summary>Is swapping faster than fast charging?</summary><p>Yes — a swap takes under two minutes, versus 45–60+ minutes even on DC fast chargers.</p></details><details><summary>Where are swapping stations concentrated?</summary><p>In dense city centres and gig-riding hotspots first — check your operator's app map for coverage near you.</p></details></div>
 <div class="card"><h2>🔗 Related guides</h2><div class="chips"><a class="chip" href="/">🗺 Live map</a><a class="chip" href="/ev-charging-networks-in-india/">All networks</a><a class="chip" href="/car-charging-stations-near-me/">Car charging stations</a><a class="chip" href="/ev-charging-cost-in-india/">Charging costs</a></div></div>
@@ -72,6 +84,9 @@ footer a{color:#64748b}
 </main>
 <footer>EV Chargers Near Me &mdash; an SKM Studio Network site &middot; <a href="https://evchargersnearme.pages.dev/">https://evchargersnearme.pages.dev</a> &middot; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
 General information only &middot; Emergency? Call <b>112</b></footer>
+<script>window.KWMAP_CFG={"ac": "#16a34a", "poiname": "charging station", "def": "delhi", "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Free", "b": 1}], "cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}};</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/kwmap.js"></script>
 <script defer src="/feedback.js" data-site="ev"></script>
 </body>
 </html>
