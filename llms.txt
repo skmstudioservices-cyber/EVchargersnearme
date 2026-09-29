@@ -1,0 +1,20 @@
+# EV Chargers Near Me
+
+Live maps and guides for finding charging stations in India (15 cities), by SKM Studio Network.
+
+## Main pages
+- / — live map, all cities
+- - /car-charging-stations-near-me/ — Car charging stations near me
+- /dc-fast-charging-stations-near-me/ — DC fast charging stations near me
+- /how-to-find-ev-charging-stations/ — How to find EV charging stations
+- /tata-power-ev-charging-stations-near-me/ — Tata Power EV charging stations near me
+- /ev-charging-networks-in-india/ — EV charging networks in India
+- /free-ev-charging-stations-near-me/ — Free EV charging stations near me
+- /ev-charging-cost-in-india/ — EV charging cost in India
+- /battery-swapping-stations-near-me/ — Battery swapping stations near me
+- /highway-ev-charging-stations-in-india/ — Highway EV charging stations in India
+
+## City pages
+Delhi, Mumbai, Bengaluru, Hyderabad, Chennai, Kolkata, Pune, Ahmedabad, Jaipur, Lucknow, Surat, Indore, Chandigarh, Bhopal, Nagpur
+
+Data: OpenStreetMap (ODbL), refreshed monthly. Contact: skmstudio.services@gmail.com
