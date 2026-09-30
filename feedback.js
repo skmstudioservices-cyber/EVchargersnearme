@@ -1,5 +1,6 @@
 (function(){
-  var SB_URL="https://timnrnmmmmuqmcnuaend.supabase.co", SB_KEY="sb_publishable_HDo7lgQV4FBbLmfmSmTVmA_mT7NJIJ8", SB_TABLE="popup_feedback_ev";
+  var DB=(window.SITE&&window.SITE.db)||{};
+  var SB_URL=DB.url||"https://timnrnmmmmuqmcnuaend.supabase.co", SB_KEY=DB.key||"sb_publishable_HDo7lgQV4FBbLmfmSmTVmA_mT7NJIJ8", SB_TABLE=DB.feedbackTable||"popup_feedback_ev";
   var SITE=(document.currentScript&&document.currentScript.dataset.site)||location.hostname;
   var MIN=30,MAX=300;
   try{var last=+localStorage.getItem('fbk_shown_at')||0;if(Date.now()-last<86400000)return;}catch(e){}
@@ -33,7 +34,7 @@
     if(qk)QUICK.forEach(function(label){
       var b=document.createElement('button');b.type='button';b.textContent=label;
       b.style.cssText='padding:8px 12px;border-radius:999px;border:2px solid #cbd5e1;background:#fff;font-weight:700;font-size:.8rem;cursor:pointer;font-family:inherit;color:#0f172a';
-      b.onmouseover=function(){b.style.borderColor='#16a34a';};
+      b.onmouseover=function(){b.style.borderColor=((window.SITE&&window.SITE.brand&&window.SITE.brand.ac)||'#10B981');};
       b.onmouseout=function(){b.style.borderColor='#cbd5e1';};
       b.onclick=function(){
         log({url:url,path:page,referrer:referrer,delay_seconds:delay,shown_at:new Date().toISOString(),responded:true,response_type:'quick',transcript:label,session_id:sid,user_agent:navigator.userAgent.slice(0,200)});
@@ -52,7 +53,7 @@
         if(rec){rec.stop();return;}
         rec=new SR();rec.lang='en-IN';rec.interimResults=true;rec.continuous=false;
         var st=document.getElementById('fbkst');
-        rec.onstart=function(){rtype='voice';st.textContent='\uD83C\uDFA4 Listening\u2026 speak now';document.getElementById('fbkmic').style.background='#16a34a';};
+        rec.onstart=function(){rtype='voice';st.textContent='\uD83C\uDFA4 Listening\u2026 speak now';document.getElementById('fbkmic').style.background=((window.SITE&&window.SITE.brand&&window.SITE.brand.ac)||'#10B981');};
         rec.onresult=function(e){var t='';for(var i=0;i<e.results.length;i++)t+=e.results[i][0].transcript;document.getElementById('fbktxt').value=t;};
         rec.onerror=function(){st.textContent='Could not hear you \u2014 type instead?';document.getElementById('fbkmic').style.background='#ef4444';rec=null;};
         rec.onend=function(){st.textContent=st.textContent==('\uD83C\uDFA4 Listening\u2026 speak now')?'Voice captured \u2014 edit if needed, then Send':st.textContent;document.getElementById('fbkmic').style.background='#ef4444';rec=null;};
