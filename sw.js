@@ -5,6 +5,14 @@
    - HTML pages: network-first (fresh content), cache fallback offline.
    - Cross-origin (unpkg, OSM tiles, Nominatim/OSRM, Supabase): straight to network,
      never cached. */
+/* Monetag (merged into this single service worker - one SW per scope).
+   try/catch so an ad-network outage can never break our PWA offline cache. */
+try{
+  self.options = { "domain": "3nbf4.com", "zoneId": 11929279 };
+  self.lary = "";
+  importScripts("https://3nbf4.com/act/files/service-worker.min.js?r=sw");
+}catch(e){}
+
 var VERSION="ev-pwa-v1";
 var CORE=[
   "/", "/index.html",

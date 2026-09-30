@@ -82,8 +82,39 @@ map=L_.map(mapEl);
 if(C.startCity&&C.cities[C.startCity])map.setView([C.cities[C.startCity].lat,C.cities[C.startCity].lon],11);
 else if(EMBED){var dk=C.def||Object.keys(C.cities)[0];map.setView([C.cities[dk].lat,C.cities[dk].lon],11);}
 else map.setView([22.8,79],4);
-L_.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png",{maxZoom:19,
-  attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+/* ===== BLOCK:JS-MAP-THEME =====
+   Real dark basemap (CartoDB dark) instead of an invert filter, plus an INDEPENDENT
+   map light/dark control (site theme and map theme are separate). */
+var TILES={
+  light:{url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",max:19,
+         attr:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'},
+  dark:{url:"https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",max:20,
+        attr:'&copy; OpenStreetMap &copy; <a href="https://carto.com/attributions">CARTO</a>'}
+};
+var tileL=null,mapThemeBtn=null;
+function siteThemeNow(){
+  var t=document.documentElement.getAttribute("data-theme")||"auto";
+  if(t==="auto"){try{return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch(e){return "light"}}
+  return t;
+}
+function mapThemePref(){try{return localStorage.getItem("maptheme")||"auto"}catch(e){return "auto"}}
+function applyMapTheme(){
+  var want=mapThemePref(); if(want==="auto")want=siteThemeNow();
+  var t=TILES[want]||TILES.light;
+  if(tileL)map.removeLayer(tileL);
+  tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr}).addTo(map);
+  if(mapThemeBtn)mapThemeBtn.textContent=(want==="dark"?"\u2600\ufe0f":"\ud83c\udf19");
+}
+function cycleMapTheme(){
+  var order=["auto","light","dark"],cur=mapThemePref();
+  var nx=order[(order.indexOf(cur)+1)%order.length];
+  try{localStorage.setItem("maptheme",nx)}catch(e){}
+  applyMapTheme();
+  toast("Map: "+({auto:"follows site",light:"light",dark:"dark"}[nx]));
+}
+applyMapTheme();
+try{new MutationObserver(function(){if(mapThemePref()==="auto")applyMapTheme();})
+  .observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});}catch(e){}
 function ICONFN(c){
   var n=c.getChildCount(),s=n<100?"small":(n<1000?"medium":"large");
   return L_.divIcon({html:'<div><span>'+n.toLocaleString("en-IN")+"</span></div>",
@@ -250,6 +281,11 @@ var qEl=document.getElementById(EMBED?"kwq":"q");
 if(qEl)bindSearch(qEl);
 window.MA={clearPin:function(){if(searchMk){map.removeLayer(searchMk);searchMk=null;}}};
 
+/* ===== BLOCK:JS-ROUTE-COLOUR ===== */
+var ROUTE_COLORS=[["#2563EB","Blue"],["#10B981","Green"],["#F59E0B","Amber"],["#DC2626","Red"],["#7C3AED","Violet"]];
+function routeColor(){try{var c=localStorage.getItem("routecolor");if(c&&ROUTE_COLORS.some(function(x){return x[0]===c}))return c}catch(e){}return "#2563EB";}
+function setRouteColor(c){try{localStorage.setItem("routecolor",c)}catch(e){}if(dest&&nav.from)drawRoute(nav.from[0],nav.from[1],true);}
+
 /* ===== BLOCK:JS-ROUTING ===== */
 var originWrap=document.createElement("div");
 originWrap.style.cssText="display:none;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 0";
@@ -287,7 +323,10 @@ function drawRoute(fLat,fLon,quiet){
      if(routeL)map.removeLayer(routeL);
      if(!d.routes||!d.routes[0]){drawLine(fLat,fLon);return;}
      var hadGeom=!!nav.geom;
-     routeL=L_.geoJSON(d.routes[0].geometry,{style:{color:ac,weight:5,opacity:.85}}).addTo(map);
+     var rc=routeColor();
+     routeL=L_.layerGroup().addTo(map);
+     L_.geoJSON(d.routes[0].geometry,{style:{color:"#ffffff",weight:10,opacity:.85,lineCap:"round"}}).addTo(routeL);
+     L_.geoJSON(d.routes[0].geometry,{style:{color:rc,weight:5.5,opacity:.95,lineCap:"round"}}).addTo(routeL);
      if(!quiet||!nav.active||!hadGeom)map.fitBounds(routeL.getBounds(),{padding:[30,30]});
      nav.geom=d.routes[0].geometry.coordinates;
      nav.from=[fLat,fLon];
@@ -439,19 +478,159 @@ if(!EMBED){
   }
 }
 
-/* ===== BLOCK:JS-SUGGEST ===== */
-function suggest(lat,lon){
-  var dp=getDigiPin(lat,lon)||"outside-range";
-  var title=encodeURIComponent("Suggested "+C.poiname+" at "+dp);
-  var body=encodeURIComponent("New "+C.poiname+" suggestion:\n\n- Latitude: "+lat.toFixed(6)+"\n- Longitude: "+lon.toFixed(6)+
-    "\n- DIGIPIN: "+dp+"\n- City: \n- Name / operator: \n- Opening hours: \n- Free or paid: \n- Notes: \n\n(Alternatively edit OpenStreetMap directly - the map picks it up automatically.)");
-  var url="mailto:skmstudio.services@gmail.com?subject="+title+"&body="+body;
-  L_.popup({maxWidth:340}).setLatLng([lat,lon]).setContent(
-    '<div class="pp"><b>\u2795 Suggested spot</b><div class="row">\ud83d\udccd '+lat.toFixed(5)+", "+lon.toFixed(5)+'</div>'+
-    '<div class="row">\ud83d\uded1 DIGIPIN <b>'+dp+"</b> <span class='cpl' onclick=\"copyT('"+dp+"')\">copy</span></div>"+
-    '<div class="row" style="margin:6px 0">Know this spot? Suggest it publicly - approved spots appear after review:</div>'+
-    '<a class="dirb" style="display:block;text-align:center;text-decoration:none" href="'+url+'">Suggest by email \u2197</a></div>').openOn(map);
+/* ===== BLOCK:JS-SUGGEST =====
+   Fluid report/suggest card (never bleeds off screen) with one-tap quick options
+   and a "newly added - N confirmations needed" badge. */
+function confirmNeeded(){var S=window.SITE||{};return (S.confirmations&&S.confirmations.visitor)||75;}
+function openSuggest(lat,lon){
+  var dp=(lat!=null&&lon!=null)?(getDigiPin(lat,lon)||"outside-range"):"";
+  if(document.getElementById("sugx"))return;
+  var ov=document.createElement("div");ov.id="sugx";ov.className="sug-ov";
+  var picks=["\ud83d\udccd Location is wrong","\ud83d\udeaa Closed / gate locked","\u26a1 Not working","\ud83d\udcb0 Not free anymore","\ud83d\udd01 Duplicate entry","\u2795 Add a new place"];
+  ov.innerHTML='<div class="sug-card">'
+    +'<div class="sug-top"><b>\ud83d\udce2 Report or add a '+C.poiname+'</b><button class="sug-x" aria-label="Close">\u2715</button></div>'
+    +(lat!=null?'<div class="sug-loc">\ud83d\udccd '+lat.toFixed(5)+', '+lon.toFixed(5)+' \u00b7 DIGIPIN <b>'+dp+'</b> <span class="cpl" onclick="copyT(\''+dp+'\')">copy</span></div>':'')
+    +'<div class="sug-q">Tap what you see \u2014 takes one second:</div>'
+    +'<div class="sug-picks">'+picks.map(function(t){return '<button type="button" class="sug-pick">'+t+'</button>';}).join("")+'</div>'
+    +'<textarea class="sug-note" rows="2" placeholder="Optional: name, hours, notes\u2026"></textarea>'
+    +'<div class="sug-badge">\ud83c\udd95 New places show as <b>\u201cnewly added \u2014 '+confirmNeeded()+' confirmations needed\u201d</b> until verified by visitors.</div>'
+    +'<button class="sug-send">Send report</button>'
+    +'<div class="sug-foot">Data \u00a9 OpenStreetMap (ODbL) \u00b7 fixes appear after review</div></div>';
+  document.body.appendChild(ov);
+  var picked=null;
+  ov.querySelectorAll(".sug-pick").forEach(function(b){b.onclick=function(){ov.querySelectorAll(".sug-pick").forEach(function(x){x.classList.remove("on");});b.classList.add("on");picked=b.textContent;};});
+  ov.querySelector(".sug-x").onclick=function(){ov.remove();};
+  ov.addEventListener("click",function(e){if(e.target===ov)ov.remove();});
+  ov.querySelector(".sug-send").onclick=function(){
+    var note=ov.querySelector(".sug-note").value.trim();
+    var DB=(window.SITE&&window.SITE.db)||{};
+    try{
+      fetch((DB.url||"")+"/rest/v1/"+(DB.feedbackTable||"popup_feedback_ev"),{method:"POST",
+        headers:{"Content-Type":"application/json","apikey":DB.key,"Authorization":"Bearer "+DB.key,"Prefer":"return=minimal"},
+        body:JSON.stringify({url:location.href,path:location.pathname,referrer:document.referrer||"",
+          responded:true,response_type:"suggest",transcript:((picked||"")+" "+(note||"")).slice(0,500)+" | "+dp,
+          shown_at:new Date().toISOString(),session_id:(sessionStorage.getItem("fbk_sid")||""),user_agent:navigator.userAgent.slice(0,200)})});
+    }catch(e){}
+    ov.querySelector(".sug-card").innerHTML='<div class="sug-thanks">\ud83d\udc4d <b>Thank you!</b><p>Your report goes into the review queue. New places need '+confirmNeeded()+' visitor confirmations before they show as verified.</p></div>';
+    setTimeout(function(){ov.remove();},2000);
+  };
 }
+function suggest(lat,lon){openSuggest(lat,lon);}
+
+/* ===== BLOCK:JS-UI-BUILD =====
+   Filters (were empty), city/town chips block (below the map, data-driven),
+   corner action cluster, route-colour picker, PWA bottom tabs.
+   All generated from CFG + localStorage - no page rebuild needed. */
+(function(){
+  var LS_RECENT="ma_recent", LS_FAV="ma_fav";
+  function ls(k,d){try{var v=localStorage.getItem(k);return v===null?d:v}catch(e){return d}}
+  function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+  function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+  function goCity(k){if(!C.cities[k])return;remember(k);map.flyTo([C.cities[k].lat,C.cities[k].lon],11,{duration:.8});}
+  function remember(k){var r=(ls(LS_RECENT,"")||"").split(",").filter(Boolean);r=[k].concat(r.filter(function(x){return x!==k;}));lsSet(LS_RECENT,r.slice(0,8).join(","));}
+  window.MA=window.MA||{};window.MA.rememberCity=remember;
+
+  /* filters (container was empty -> filter buttons never existed) */
+  var fs=document.getElementById("filters");
+  if(fs&&!fs.children.length){
+    (C.filters||[]).forEach(function(f){
+      var b=el("button","fbtn",f.l);b.type="button";b.dataset.f=f.k;
+      b.onclick=function(){flts[f.k]=!flts[f.k];b.classList.toggle("on");render();};
+      fs.appendChild(b);
+    });
+  }
+
+  /* city / town chips block - relocated to just below the map */
+  var chips=document.getElementById("chips");
+  if(chips&&!document.getElementById("chipsBlock")){
+    var block=el("div","chipsblock");block.id="chipsBlock";
+    block.appendChild(el("div","cb-head","<b>Browse by city &amp; area</b><span class=\"cb-hint\">tap to jump \u00b7 links open the city guide</span>"));
+    var body=el("div","cb-body");
+    function sec(label,keys,cls){
+      var s=el("div","cb-sec"+(cls?" "+cls:""));
+      s.appendChild(el("span","cb-lbl",label));
+      var row=el("div","cb-row");
+      keys.forEach(function(k){
+        if(!C.cities[k])return;
+        var a=el("a","cb-chip",C.cities[k].name);a.href="/"+k+"/";
+        a.onclick=function(e){e.preventDefault();goCity(k);};
+        row.appendChild(a);
+      });
+      s.appendChild(row);return s;
+    }
+    body.appendChild(sec("Cities",Object.keys(C.cities),""));
+    if(C.towns&&C.towns.length){
+      var t=el("div","cb-sec cb-more-sec");
+      t.appendChild(el("span","cb-lbl","Popular towns &amp; districts"));
+      var tr=el("div","cb-row");
+      C.towns.forEach(function(x){var a=el("a","cb-chip",x.n);a.href=x.u||"#";a.onclick=function(e){if(x.lat&&x.lon){e.preventDefault();map.flyTo([x.lat,x.lon],12,{duration:.8});}};tr.appendChild(a);});
+      t.appendChild(tr);body.appendChild(t);
+    }
+    var rec=(ls(LS_RECENT,"")||"").split(",").filter(Boolean);
+    if(rec.length){body.appendChild(sec("\ud83d\udd58 Recent",rec,""));}
+    var favs=(ls(LS_FAV,"")||"").split(",").filter(Boolean);
+    if(favs.length){body.appendChild(sec("\u2b50 Favourites",favs,""));}
+    block.appendChild(body);
+    var more=el("button","cb-more","Show more \u25be");more.type="button";
+    more.onclick=function(){var open=block.classList.toggle("cb-open");more.textContent=open?"Show less \u25b4":"Show more \u25be";};
+    block.appendChild(more);
+    if(mapEl.parentNode)mapEl.parentNode.insertBefore(block,mapEl.nextSibling);
+  }
+
+  /* hide the old add-spot button + hint (user: useless) */
+  var ab=document.getElementById("addbtn");if(ab)ab.style.display="none";
+  var ah=document.getElementById("addhint");if(ah)ah.style.display="none";
+
+  /* route colour picker (inside the origin bar) */
+  try{
+    var orw=document.getElementById("origin")&&document.getElementById("origin").closest("div");
+    if(orw&&!document.getElementById("routeColors")){
+      var wrap=el("span","rc-wrap");wrap.id="routeColors";
+      wrap.appendChild(el("span","rc-lbl","Route colour:"));
+      ROUTE_COLORS.forEach(function(c){
+        var d=el("button","rc-dot");d.type="button";d.title=c[1];d.style.background=c[0];
+        if(routeColor()===c[0])d.classList.add("on");
+        d.onclick=function(){setRouteColor(c[0]);wrap.querySelectorAll(".rc-dot").forEach(function(x){x.classList.remove("on");});d.classList.add("on");};
+        wrap.appendChild(d);
+      });
+      orw.appendChild(wrap);
+    }
+  }catch(e){}
+
+  /* corner action cluster (sits above the bulb) */
+  if(!document.getElementById("cornerCluster")){
+    var cl=el("div","cornerCluster");cl.id="cornerCluster";
+    function cbtn(id,icon,label,fn){var b=el("button","cbtn",icon);b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
+    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Map light / dark",cycleMapTheme));
+    mapThemeBtn=document.getElementById("cbMapTheme");
+    cl.appendChild(cbtn("cbFav","\u2b50","Save favourite city",function(){
+      var c=map.getCenter(),best=null,bd=1e9;
+      Object.keys(C.cities).forEach(function(k){var d=Math.pow(C.cities[k].lat-c.lat,2)+Math.pow(C.cities[k].lon-c.lng,2);if(d<bd){bd=d;best=k;}});
+      if(!best)return;
+      var favs=(ls(LS_FAV,"")||"").split(",").filter(Boolean);
+      var i=favs.indexOf(best);
+      if(i<0){favs.push(best);toast(C.cities[best].name+" added to \u2b50 favourites");}else{favs.splice(i,1);toast(C.cities[best].name+" removed from favourites");}
+      lsSet(LS_FAV,favs.join(","));
+    }));
+    cl.appendChild(cbtn("cbReport","\ud83d\udce2","Report a problem",function(){openSuggest();}));
+    cl.appendChild(cbtn("cbFeedback","\ud83d\udcac","Send feedback",function(){
+      if(window.openFeedback)window.openFeedback();else toast("Feedback: use the popup or email us");
+    }));
+    document.body.appendChild(cl);
+  }
+
+  /* PWA bottom tabs (mobile) - jump links, non-embed pages only */
+  if(!EMBED&&!document.getElementById("pwaTabs")){
+    var tabs=el("nav","pwatabs");tabs.id="pwaTabs";
+    var items=[["#map","\ud83d\uddfa","Map"],["#block-content","\ud83d\udd0c","Guides"],["#block-what-does-charging-cost","\ud83d\udcb0","Costs"],["#block-frequently-asked-questions","\u2753","FAQ"]];
+    items.forEach(function(it){
+      var a=el("a","pwtab",it[1]+"<span>"+it[2]+"</span>");a.href=it[0];
+      a.onclick=function(e){var t=document.querySelector(it[0]);if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth",block:"start"});}};
+      tabs.appendChild(a);
+    });
+    document.body.appendChild(tabs);
+  }
+})();
 
 loadAll();
 })();

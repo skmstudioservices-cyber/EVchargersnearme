@@ -156,7 +156,6 @@ footer a{color:var(--muted)}
 .pp .row{color:#475569}
 html[data-theme="dark"] .pp .row,html[data-theme="auto"] .pp .row{color:#a9b7d0}
 .dirb{margin-top:8px;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
-html[data-theme="dark"] .leaflet-tile,html[data-theme="auto"] .leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.92) saturate(.75)}
 .leaflet-container{background:var(--surface2)}
 .leaflet-control-attribution{background:var(--surface)!important;color:var(--muted)!important}
 .leaflet-control-attribution a{color:var(--muted)!important}
@@ -182,3 +181,61 @@ html[data-theme="dark"] .leaflet-tile,html[data-theme="auto"] .leaflet-tile{filt
 #installCard .ic-row{display:flex;gap:10px;margin-top:12px}
 #installCard .ic-go{flex:1;background:var(--ac);color:#fff;border:none;border-radius:10px;padding:11px 14px;font-weight:800;font-size:.9rem}
 #installCard .ic-no{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:10px;padding:11px 14px;font-weight:700;font-size:.9rem}
+
+
+/* ================= fluid / responsive guards (no element bleeds off screen) ================= */
+html,body{overflow-x:hidden;max-width:100%}
+img,svg,canvas{max-width:100%}
+.card,details,.chipsblock,.sug-card,.pwatabs,#installCard{max-width:100%;box-sizing:border-box}
+
+/* ================= BLOCK:CHIPS-BLOCK (below the map) ================= */
+.chipsblock{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin:12px 0;box-shadow:var(--shadow)}
+.cb-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:8px}
+.cb-hint{font-size:.72rem;color:var(--muted)}
+.cb-body{display:flex;flex-direction:column;gap:8px}
+.cb-sec{display:flex;flex-direction:column;gap:5px}
+.cb-lbl{font-size:.72rem;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.cb-row{display:flex;flex-wrap:wrap;gap:7px}
+.cb-chip{display:inline-block;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap}
+.cb-chip:hover{border-color:var(--ac);color:var(--ac)}
+.cb-more{margin-top:9px;background:none;border:1px dashed var(--line);border-radius:9px;color:var(--muted);font-weight:700;font-size:.78rem;padding:6px 12px;cursor:pointer;font-family:inherit;width:100%}
+/* collapse the extra sections until "Show more" */
+.cb-more-sec,.cb-sec:nth-child(n+4){display:none}
+.chipsblock.cb-open .cb-more-sec,.chipsblock.cb-open .cb-sec:nth-child(n+4){display:flex}
+.chipsblock.cb-open .cb-more{display:none}
+
+/* ================= BLOCK:CORNER-ACTIONS ================= */
+.cornerCluster{position:fixed;right:16px;bottom:74px;z-index:1200;display:flex;flex-direction:column;gap:8px}
+.cbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center}
+.cbtn:hover{border-color:var(--ac)}
+@media(max-width:700px){.cornerCluster{right:12px;bottom:70px;gap:7px}.cbtn{width:42px;height:42px;font-size:1.05rem}}
+
+/* ================= BLOCK:ROUTE-COLOUR picker ================= */
+.rc-wrap{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);font-weight:700}
+.rc-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--surface);box-shadow:0 0 0 1px var(--line);cursor:pointer;padding:0}
+.rc-dot.on{box-shadow:0 0 0 2px var(--text)}
+
+/* ================= BLOCK:SUGGEST (fluid card) ================= */
+.sug-ov{position:fixed;inset:0;background:rgba(15,23,42,.5);z-index:1300;display:flex;align-items:flex-end;justify-content:center;padding:12px}
+.sug-card{background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:16px;width:min(94vw,460px);max-height:86vh;overflow:auto;padding:16px 16px 18px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.sug-top{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:1rem}
+.sug-x{border:none;background:none;color:var(--muted);font-size:1.05rem;cursor:pointer}
+.sug-loc{font-size:.8rem;color:var(--muted);margin:8px 0}
+.sug-q{font-size:.86rem;margin:10px 0 8px;font-weight:600}
+.sug-picks{display:flex;flex-wrap:wrap;gap:7px}
+.sug-pick{padding:9px 13px;border-radius:99px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit}
+.sug-pick.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.sug-note{width:100%;margin-top:10px;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font:inherit;font-size:.88rem;resize:vertical}
+.sug-badge{margin-top:10px;font-size:.76rem;color:var(--muted);background:var(--acsoft);border:1px solid var(--ac);border-radius:10px;padding:8px 10px}
+.sug-send{margin-top:12px;width:100%;padding:12px;border-radius:10px;border:none;background:var(--ac);color:#fff;font-weight:800;font-size:.92rem;cursor:pointer;font-family:inherit}
+.sug-foot{margin-top:8px;font-size:.7rem;color:var(--muted);text-align:center}
+.sug-thanks{text-align:center;padding:14px 6px;font-size:.95rem}
+
+/* ================= BLOCK:PWA-TABS (mobile bottom nav) ================= */
+.pwatabs{position:fixed;left:0;right:0;bottom:0;z-index:1150;display:none;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.06)}
+.pwatab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 0 8px;font-size:1.05rem;text-decoration:none;color:var(--muted)}
+.pwatab span{font-size:.68rem;font-weight:700}
+.pwatab:hover,.pwatab:active{color:var(--ac)}
+@media(max-width:700px){.pwatabs{display:flex}}
+/* keep the corner cluster + bulb clear of the bottom tabs */
+@media(max-width:700px){.cornerCluster{bottom:78px}#themeBtn{bottom:14px}}

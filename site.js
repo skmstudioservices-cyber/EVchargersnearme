@@ -15,6 +15,14 @@ window.SITE={
     feedbackTable: "popup_feedback_ev"
   },
   pwa: { minDays: 7, maxDays: 30 },   /* random re-prompt window */
+  tiles: {
+    light: "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+    dark: "https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+  },
+  routeColors: ["#2563EB","#10B981","#F59E0B","#DC2626","#7C3AED"],
+  confirmations: { visitor: 75, community: 500 },   /* new place -> verified */
+  ads: { enabled: true, minMonthlyViews: 50, pages: [] },   /* per-page gate, GA4-driven */
+  monetag: { domain: "3nbf4.com", zoneId: 11929279 },
   paths: { privacy: "/privacy/", about: "/about/", map: "/" }
 };
 })();
