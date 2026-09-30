@@ -13,81 +13,64 @@
 <meta name="google-site-verification" content="GlkDu5ZL-CyyKjwPSj9d9X3Y2qsHUj_qAwRwxiLr7nI">
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZE1GR23S8E"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZE1GR23S8E');</script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='#16a34a'/><text x='50' y='68' font-size='46' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--ac:#16a34a;--acsoft:#dcfce7}
-body{font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#1e293b;background:#f8fafc;line-height:1.65}
-a{color:var(--ac)}
-.wrap{max-width:900px;margin:0 auto;padding:0 18px}
-header{background:#0f172a;color:#fff;padding:14px 0}
-header .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{width:40px;height:40px;border-radius:11px;background:var(--ac);display:grid;place-items:center;font-weight:800;color:#fff}
-header b{font-size:1.05rem}
-header small{display:block;color:#94a3b8;font-size:.72rem}
-nav.crumbs{font-size:.8rem;color:#64748b;padding:10px 0}
-main{padding:8px 0 10px}
-h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:6px 0 4px}
-.lead{color:#475569;font-size:1rem;margin:10px 0 4px}
-.ans{background:var(--acsoft);border:1px solid var(--ac);border-radius:12px;padding:14px 16px;margin:16px 0}
-.ans b:first-child{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;color:#0f172a;margin-bottom:4px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;margin:16px 0}
-.card h2{font-size:1.12rem;margin-bottom:10px}
-.card h3{font-size:.97rem;margin:14px 0 6px}
-.card p{margin:8px 0;color:#334155;font-size:.95rem}
-.card ul,.card ol{margin:8px 0 8px 22px;color:#334155;font-size:.95rem}
-.card li{margin:6px 0}
-table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem}
-th,td{border:1px solid #e2e8f0;padding:8px 10px;text-align:left;vertical-align:top}
-th{background:#f1f5f9}
-#kwmap{height:380px;border-radius:12px;border:1px solid #e2e8f0;z-index:1;background:#e2e8f0}
-.mapstat{font-weight:700;color:#0f172a;font-size:.92rem}
-.kchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
-.kwc{padding:7px 13px;border-radius:99px;border:2px solid var(--ac);background:#fff;color:#0f172a;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
-.kwc.on{background:var(--ac);color:#fff}
-.mapbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
-.nearbtn{padding:12px 20px;border-radius:12px;border:none;background:#0f172a;color:#fff;font-weight:800;cursor:pointer;font-size:.92rem;font-family:inherit}
-.mapcta{flex:1;min-width:220px;display:block;text-align:center;background:var(--ac);color:#fff;font-weight:800;font-size:1.02rem;padding:14px 20px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
-.mapcta:hover{filter:brightness(1.09);color:#fff}
-@media(max-width:700px){#kwmap{height:300px}}
-details{border:1px solid #e2e8f0;border-radius:10px;margin:8px 0;background:#fff}
-summary{padding:12px 14px;font-weight:600;cursor:pointer;font-size:.93rem}
-details p{padding:0 14px 12px;color:#334155;font-size:.92rem}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
-.chip{background:var(--acsoft);border:1px solid var(--ac);color:#0f172a;padding:6px 13px;border-radius:99px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-block}
-.chip:hover{background:var(--ac);color:#fff}
-.cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
-.cities a{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;font-weight:600;text-decoration:none;color:#1e293b}
-.cities a:hover{border-color:var(--ac);color:var(--ac)}
-footer{margin-top:34px;padding:20px 0;border-top:1px solid #e2e8f0;color:#64748b;font-size:.78rem;text-align:center}
-footer a{color:#64748b}
-.updated{font-size:.8rem;color:#64748b;margin-top:2px}
-</style>
+<meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f8fb" media="(prefers-color-scheme: light)">
+<script>/* BLOCK:THEME-BOOT */(function(){try{var t=localStorage.getItem("theme")||"auto";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","auto")}})();</script>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="/theme.css">
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type": "Question", "name": "How much does it cost to charge an EV in India?", "acceptedAnswer": {"@type": "Answer", "text": "Public DC fast charging is typically around ₹18–28 per kWh depending on network, state and charger speed; home charging on a residential tariff is much cheaper per unit."}}, {"@type": "Question", "name": "Is EV charging cheaper than petrol?", "acceptedAnswer": {"@type": "Answer", "text": "Yes, substantially. A typical EV costs roughly ₷1–4 per km in electricity, versus about ₷7 per km in fuel for a 15 km/litre petrol car."}}, {"@type": "Question", "name": "Why is DC fast charging more expensive than AC?", "acceptedAnswer": {"@type": "Answer", "text": "DC hardware costs more to install and run, and its speed is a premium service — so operators charge more per kWh."}}, {"@type": "Question", "name": "Do charging rates differ by state?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — electricity tariffs and surcharges vary by state, and some discoms offer subsidised public charging."}}, {"@type": "Question", "name": "Can I pay for charging with UPI?", "acceptedAnswer": {"@type": "Answer", "text": "Yes — nearly all network apps support UPI, cards and wallets."}}]}</script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://evchargersnearme.pages.dev/"},{"@type":"ListItem","position":2,"name":"EV charging cost in India","item":"https://evchargersnearme.pages.dev/ev-charging-cost-in-india/"}]}</script>
 </head>
-<body>
-<header><div class="wrap"><div class="logo">E</div><div><b>EV Chargers Near Me</b><small>SKM Studio Network &middot; live OSM data &middot; DIGIPIN directions</small></div></div></header>
+<body class="kw-page">
+<!-- BLOCK:HEADER -->
+<header id="block-header"><div class="wrap"><div class="logo">E</div><div><b>EV Chargers Near Me</b><small>SKM Studio Network &middot; live OSM data &middot; DIGIPIN directions</small></div></div></header>
+<!-- /BLOCK:HEADER -->
 <div class="wrap">
 <nav class="crumbs"><a href="/">Home</a> &rsaquo; EV charging cost in India</nav>
-<main>
-<h1>EV charging cost in India — what you actually pay per km</h1>
+<!-- BLOCK:CONTENT -->
+<main id="block-content">
+<h1 id="block-h1">EV charging cost in India — what you actually pay per km</h1>
 <p class="updated">Page last updated 29 September 2026</p>
 <p class="lead">Charging costs depend on where you plug in: home, public AC or public DC. The differences are large — and they decide whether an EV saves you money.</p>
 <div class="ans"><b>Quick answer</b>Public charging in India is billed <b>per kWh</b>. DC fast charging typically runs around <b>₹18–28 per kWh</b>, public AC less, and home charging on a residential tariff is cheapest of all. A typical EV uses about 15–18 kWh per 100 km — so even on DC fast charging, running costs are a fraction of petrol.</div>
-<div class="card" style="border:2px solid var(--ac)"><h2>🗺 EV charging cost in India — live map</h2><p class="mapstat" id="kwcount">Loading live map…</p><div id="kwmap"></div><div id="kwchips" class="kchips"></div><div class="mapbtns"><button id="kwnear" class="nearbtn" style="display:none">📍 Use my location</button><a class="mapcta" href="/">Open the full map &mdash; DIGIPIN directions &rarr;</a></div><p style="font-size:.75rem;color:#64748b;margin-top:8px">Tap any pin for details · data &copy; OpenStreetMap contributors (ODbL)</p></div>
-<div class="card"><h2>What charging costs by type</h2><table><tr><th>Where you charge</th><th>Typical cost</th><th>Best for</th></tr><tr><td>Home (residential tariff)</td><td>Lowest per-kWh</td><td>Daily overnight charging</td></tr><tr><td>Public AC (7–22 kW)</td><td>Mid</td><td>Long parking — malls, offices</td></tr><tr><td>Public DC fast</td><td>₹18–28 per kWh (varies)</td><td>Quick top-ups, highways</td></tr></table></div><div class="card"><h2>Cost per km, worked example</h2><p>A typical Indian EV consumes roughly 15–18 kWh per 100 km. At ₹22/kWh DC that is about ₹3.3–4 per km; on a home tariff it drops to roughly ₹1–1.5 per km. A petrol car doing 15 km/litre at ₷105/litre costs about ₷7 per km in fuel.</p></div><div class="card"><h2>Why rates vary</h2><p>Network, state electricity tariffs, charger speed and even time of day move the per-kWh price. Some states also run subsidised public chargers through their discoms — worth checking locally.</p></div><div class="card"><h2>How to pay less</h2><ul style="list-style:disc"><li>Charge at home by default; use DC only when in a hurry.</li><li>Some networks offer subscription plans with lower per-unit rates for regular users.</li><li>Off-peak charging, where offered, is cheaper.</li></ul></div>
-<div class="card"><h2>❓ EV charging cost in India &mdash; FAQ</h2><details><summary>How much does it cost to charge an EV in India?</summary><p>Public DC fast charging is typically around ₹18–28 per kWh depending on network, state and charger speed; home charging on a residential tariff is much cheaper per unit.</p></details><details><summary>Is EV charging cheaper than petrol?</summary><p>Yes, substantially. A typical EV costs roughly ₷1–4 per km in electricity, versus about ₷7 per km in fuel for a 15 km/litre petrol car.</p></details><details><summary>Why is DC fast charging more expensive than AC?</summary><p>DC hardware costs more to install and run, and its speed is a premium service — so operators charge more per kWh.</p></details><details><summary>Do charging rates differ by state?</summary><p>Yes — electricity tariffs and surcharges vary by state, and some discoms offer subsidised public charging.</p></details><details><summary>Can I pay for charging with UPI?</summary><p>Yes — nearly all network apps support UPI, cards and wallets.</p></details></div>
-<div class="card"><h2>🔗 Related guides</h2><div class="chips"><a class="chip" href="/">🗺 Live map</a><a class="chip" href="/dc-fast-charging-stations-near-me/">DC fast charging</a><a class="chip" href="/ev-charging-networks-in-india/">All networks</a><a class="chip" href="/free-ev-charging-stations-near-me/">Free charging</a></div></div>
-<div class="card"><h2>📍 EV Chargers Near Me by city</h2><div class="cities"><a href="/delhi/">Delhi</a><a href="/mumbai/">Mumbai</a><a href="/bengaluru/">Bengaluru</a><a href="/hyderabad/">Hyderabad</a><a href="/chennai/">Chennai</a><a href="/kolkata/">Kolkata</a><a href="/pune/">Pune</a><a href="/ahmedabad/">Ahmedabad</a><a href="/jaipur/">Jaipur</a><a href="/lucknow/">Lucknow</a><a href="/surat/">Surat</a><a href="/indore/">Indore</a><a href="/chandigarh/">Chandigarh</a><a href="/bhopal/">Bhopal</a><a href="/nagpur/">Nagpur</a></div></div>
+<!-- BLOCK:CARD-ev-charging-cost-in-india-live-map -->
+<div id="block-map" class="card" style="border:2px solid var(--ac)"><h2 id="block-ev-charging-cost-in-india-live-map-h2">🗺 EV charging cost in India — live map</h2><p class="mapstat" id="kwcount">Loading live map…</p><div id="kwmap"></div><div id="kwchips" class="kchips"></div><div class="mapbtns"><button id="kwnear" class="nearbtn" style="display:none">📍 Use my location</button><a class="mapcta" href="/">Open the full map &mdash; DIGIPIN directions &rarr;</a></div><p style="font-size:.75rem;color:#64748b;margin-top:8px">Tap any pin for details · data &copy; OpenStreetMap contributors (ODbL)</p></div>
+<!-- /BLOCK:CARD-ev-charging-cost-in-india-live-map -->
+<!-- BLOCK:CARD-what-charging-costs-by-type -->
+<div id="block-what-charging-costs-by-type" class="card"><h2 id="block-what-charging-costs-by-type-h2">What charging costs by type</h2><table><tr><th>Where you charge</th><th>Typical cost</th><th>Best for</th></tr><tr><td>Home (residential tariff)</td><td>Lowest per-kWh</td><td>Daily overnight charging</td></tr><tr><td>Public AC (7–22 kW)</td><td>Mid</td><td>Long parking — malls, offices</td></tr><tr><td>Public DC fast</td><td>₹18–28 per kWh (varies)</td><td>Quick top-ups, highways</td></tr></table></div>
+<!-- /BLOCK:CARD-what-charging-costs-by-type --><!-- BLOCK:CARD-cost-per-km-worked-example -->
+<div id="block-cost-per-km-worked-example" class="card"><h2 id="block-cost-per-km-worked-example-h2">Cost per km, worked example</h2><p>A typical Indian EV consumes roughly 15–18 kWh per 100 km. At ₹22/kWh DC that is about ₹3.3–4 per km; on a home tariff it drops to roughly ₹1–1.5 per km. A petrol car doing 15 km/litre at ₷105/litre costs about ₷7 per km in fuel.</p></div>
+<!-- /BLOCK:CARD-cost-per-km-worked-example --><!-- BLOCK:CARD-why-rates-vary -->
+<div id="block-why-rates-vary" class="card"><h2 id="block-why-rates-vary-h2">Why rates vary</h2><p>Network, state electricity tariffs, charger speed and even time of day move the per-kWh price. Some states also run subsidised public chargers through their discoms — worth checking locally.</p></div>
+<!-- /BLOCK:CARD-why-rates-vary --><!-- BLOCK:CARD-how-to-pay-less -->
+<div id="block-how-to-pay-less" class="card"><h2 id="block-how-to-pay-less-h2">How to pay less</h2><ul style="list-style:disc"><li>Charge at home by default; use DC only when in a hurry.</li><li>Some networks offer subscription plans with lower per-unit rates for regular users.</li><li>Off-peak charging, where offered, is cheaper.</li></ul></div>
+<!-- /BLOCK:CARD-how-to-pay-less -->
+<!-- BLOCK:CARD-ev-charging-cost-in-india-mdash-faq -->
+<div id="block-ev-charging-cost-in-india-mdash-faq" class="card"><h2 id="block-ev-charging-cost-in-india-mdash-faq-h2">❓ EV charging cost in India &mdash; FAQ</h2><details><summary>How much does it cost to charge an EV in India?</summary><p>Public DC fast charging is typically around ₹18–28 per kWh depending on network, state and charger speed; home charging on a residential tariff is much cheaper per unit.</p></details><details><summary>Is EV charging cheaper than petrol?</summary><p>Yes, substantially. A typical EV costs roughly ₷1–4 per km in electricity, versus about ₷7 per km in fuel for a 15 km/litre petrol car.</p></details><details><summary>Why is DC fast charging more expensive than AC?</summary><p>DC hardware costs more to install and run, and its speed is a premium service — so operators charge more per kWh.</p></details><details><summary>Do charging rates differ by state?</summary><p>Yes — electricity tariffs and surcharges vary by state, and some discoms offer subsidised public charging.</p></details><details><summary>Can I pay for charging with UPI?</summary><p>Yes — nearly all network apps support UPI, cards and wallets.</p></details></div>
+<!-- /BLOCK:CARD-ev-charging-cost-in-india-mdash-faq -->
+<!-- BLOCK:CARD-related-guides -->
+<div id="block-related-guides" class="card"><h2 id="block-related-guides-h2">🔗 Related guides</h2><div class="chips"><a class="chip" href="/">🗺 Live map</a><a class="chip" href="/dc-fast-charging-stations-near-me/">DC fast charging</a><a class="chip" href="/ev-charging-networks-in-india/">All networks</a><a class="chip" href="/free-ev-charging-stations-near-me/">Free charging</a></div></div>
+<!-- /BLOCK:CARD-related-guides -->
+<!-- BLOCK:CARD-ev-chargers-near-me-by-city -->
+<div id="block-ev-chargers-near-me-by-city" class="card"><h2 id="block-ev-chargers-near-me-by-city-h2">📍 EV Chargers Near Me by city</h2><div class="cities"><a href="/delhi/">Delhi</a><a href="/mumbai/">Mumbai</a><a href="/bengaluru/">Bengaluru</a><a href="/hyderabad/">Hyderabad</a><a href="/chennai/">Chennai</a><a href="/kolkata/">Kolkata</a><a href="/pune/">Pune</a><a href="/ahmedabad/">Ahmedabad</a><a href="/jaipur/">Jaipur</a><a href="/lucknow/">Lucknow</a><a href="/surat/">Surat</a><a href="/indore/">Indore</a><a href="/chandigarh/">Chandigarh</a><a href="/bhopal/">Bhopal</a><a href="/nagpur/">Nagpur</a></div></div>
+<!-- /BLOCK:CARD-ev-chargers-near-me-by-city -->
 </main>
+<!-- /BLOCK:CONTENT -->
 </div>
-<footer>EV Chargers Near Me &mdash; an SKM Studio Network site &middot; <a href="https://evchargersnearme.pages.dev/">https://evchargersnearme.pages.dev</a> &middot; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
+<!-- BLOCK:FOOTER -->
+<footer id="block-footer">EV Chargers Near Me &mdash; an SKM Studio Network site &middot; <a href="/">https://evchargersnearme.pages.dev</a> &middot; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
 General information only &middot; Emergency? Call <b>112</b> · <a href="/privacy/">Privacy</a> · <a href="/about/">About</a></footer>
-<script>window.KWMAP_CFG={"ac": "#16a34a", "poiname": "charging station", "def": "delhi", "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Free", "b": 1}], "cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}};</script>
+<!-- /BLOCK:FOOTER -->
+<script>window.KWMAP_CFG={"ac": "#10B981", "poiname": "charging station", "def": "delhi", "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Free", "b": 1}], "cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}};</script>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="/site.js" defer></script>
 <script src="/mapapp.js"></script>
 <script defer src="/feedback.js" data-site="ev"></script>
+<script src="/theme.js" defer></script>
+<script src="/pwa.js" defer></script>
 </body>
 </html>
