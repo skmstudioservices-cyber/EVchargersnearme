@@ -323,3 +323,5 @@ To request a change, say: **"block X on <page>"** — the block id or the h2 tex
 - `#block-related-guides` — CARD-related-guides
 - `#block-ev-chargers-near-me-by-city` — CARD-ev-chargers-near-me-by-city
 - `#block-map` — live map card
+
+<!-- build refreshed 30 Sep 2026 -->
