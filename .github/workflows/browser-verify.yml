@@ -1,0 +1,54 @@
+name: Browser verify
+on:
+  workflow_dispatch:
+jobs:
+  browser:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: install playwright
+        run: npm i playwright@1.47.2 && npx playwright install --with-deps chromium
+      - name: browser checks
+        run: |
+          cat > check.mjs <<'JSEOF'
+          import { chromium } from 'playwright';
+          const B = 'https://evchargersnearme.pages.dev';
+          const CB = Date.now();
+          const targets = [
+            ['home', B + '/?cb=' + CB],
+            ['bengaluru', B + '/bengaluru/?cb=' + CB],
+            ['kw', B + '/how-to-find-ev-charging-stations/?cb=' + CB]
+          ];
+          const browser = await chromium.launch();
+          const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+          for (const [name, url] of targets) {
+            const page = await ctx.newPage();
+            const errs = [], failed = [];
+            page.on('console', m => { if (m.type() === 'error') errs.push(m.text().slice(0, 140)); });
+            page.on('pageerror', e => errs.push('PAGEERROR ' + String(e).slice(0, 160)));
+            page.on('requestfailed', r => failed.push(r.url().slice(0, 100) + ' :: ' + (r.failure() ? r.failure().errorText : '')));
+            try { await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 }); } catch (e) { errs.push('GOTO ' + e.message.slice(0, 90)); }
+            await page.waitForTimeout(7000);
+            const pins = await page.locator('.leaflet-marker-icon, .marker-cluster, .leaflet-interactive, path.leaflet-interactive').count();
+            let countTxt = null;
+            try { countTxt = await page.locator('#count, #kwcount').first().textContent({ timeout: 3000 }); } catch (e) {}
+            const themeBtn = await page.locator('#themeBtn').count();
+            const themeAttr = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
+            const tileImgs = await page.locator('img.leaflet-tile').count();
+            await page.screenshot({ path: 'shot-' + name + '.png' });
+            console.log('--- ' + name + ' ---');
+            console.log('pins:' + pins + ' | count_text:' + countTxt + ' | themeBtn:' + themeBtn + ' | data-theme:' + themeAttr + ' | tiles:' + tileImgs);
+            console.log('console_errors:' + JSON.stringify(errs.slice(0, 6)));
+            console.log('failed_requests:' + JSON.stringify(failed.slice(0, 6)));
+            await page.close();
+          }
+          await browser.close();
+          JSEOF
+          node check.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: shots
+          path: shot-*.png
