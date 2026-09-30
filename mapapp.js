@@ -62,6 +62,21 @@ function toast(m){
 }
 window.copyT=function(t){if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast("Copied \u2713");});};
 
+/* ===== BLOCK:JS-CLUSTER-PLUGIN =====
+   Load the leaflet.markercluster JS (only the CSS was loaded before -> L.markerClusterGroup
+   was undefined -> pins never rendered). If the plugin fails/blocked, mkCluster() falls back
+   to a plain layerGroup, so the map ALWAYS shows pins. */
+function mcReady(){return !!(window.L&&window.L.markerClusterGroup);}
+if(!mcReady()){
+  (function(){
+    var s=document.createElement("script");
+    s.src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js";
+    s.async=true;
+    s.onload=function(){try{if(typeof render==="function"&&all.length)render();}catch(e){}};
+    document.head.appendChild(s);
+  })();
+}
+
 /* ===== BLOCK:JS-MAP-INIT ===== */
 map=L_.map(mapEl);
 if(C.startCity&&C.cities[C.startCity])map.setView([C.cities[C.startCity].lat,C.cities[C.startCity].lon],11);
@@ -74,7 +89,10 @@ function ICONFN(c){
   return L_.divIcon({html:'<div><span>'+n.toLocaleString("en-IN")+"</span></div>",
     className:"marker-cluster marker-cluster-"+s,iconSize:L_.point(40,40)});
 }
-function mkCluster(){return L_.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,spiderfyOnMaxZoom:true,iconCreateFunction:ICONFN});}
+function mkCluster(){
+  if(!L_.markerClusterGroup)return L_.layerGroup();   /* graceful fallback: pins always render */
+  return L_.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,spiderfyOnMaxZoom:true,iconCreateFunction:ICONFN});
+}
 cluster=mkCluster();
 
 /* ===== BLOCK:JS-DATA-LOAD ===== */
