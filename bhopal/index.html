@@ -13,87 +13,48 @@
 <meta property="og:type" content="website">
 <!--GSC-VERIFY-->
 <!--MONETAG-->
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='#16a34a'/><text x='50' y='68' font-size='46' text-anchor='middle' fill='white' font-family='Arial' font-weight='bold'>E</text></svg>">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--ac:#16a34a;--acsoft:#16a34aS}
-body{font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:#1e293b;background:#f8fafc;line-height:1.6}
-a{color:var(--ac)}
-.wrap{max-width:1100px;margin:0 auto;padding:0 18px}
-header{background:#0f172a;color:#fff;padding:14px 0}
-header .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.logo{width:40px;height:40px;border-radius:11px;background:var(--ac);display:grid;place-items:center;font-weight:800;color:#fff}
-header b{font-size:1.05rem}
-header small{display:block;color:#94a3b8;font-size:.72rem}
-.hero{background:#0f172a;color:#fff;padding:28px 0 18px}
-.hero h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-.02em}
-.hero p{color:#cbd5e1;margin-top:8px;max-width:680px;font-size:.98rem}
-.search{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
-.search input{flex:1;min-width:200px;padding:11px 14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:.95rem;font-family:inherit}
-.search input:focus{outline:1px solid var(--ac)}
-.search button{padding:11px 16px;border-radius:10px;border:none;background:var(--ac);color:#fff;font-weight:700;cursor:pointer;font-size:.9rem}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
-.chip{padding:7px 14px;border-radius:99px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;font-size:.82rem;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block}
-.chip:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
-.mapbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
-#count{font-weight:700;font-size:.92rem}
-#routeinfo{font-size:.85rem;font-weight:700;color:#0f172a;background:var(--acsoft);border:1px solid var(--ac);padding:6px 12px;border-radius:8px}
-.cpl{color:var(--ac);cursor:pointer;font-weight:700;font-size:.72rem}
-.fbtn{padding:5px 12px;border-radius:8px;border:1px solid #cbd5e1;background:#fff;font-size:.78rem;font-weight:600;cursor:pointer;color:#475569}
-.fbtn.on{background:var(--acsoft);border-color:var(--ac);color:#0f172a}
-#addbtn{margin-left:auto}
-#map{height:70vh;min-height:420px;border-radius:14px;border:1px solid #e2e8f0;z-index:1}
-#addhint{display:none;background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;margin-top:10px}
-.legend{font-size:.75rem;color:#64748b;margin-top:8px}
-main{padding:26px 0 10px}
-.card{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:20px 22px;margin:16px 0}
-.card h2{font-size:1.12rem;margin-bottom:10px}
-.card h3{font-size:.97rem;margin:14px 0 6px}
-.card p{margin:8px 0;color:#334155;font-size:.94rem}
-.card ul,.card ol{margin:8px 0 8px 22px;color:#334155;font-size:.94rem}
-.card li{margin:5px 0}
-.tips{background:var(--acsoft);border:1px solid var(--ac)}
-details{border:1px solid #e2e8f0;border-radius:10px;margin:8px 0;background:#fff}
-summary{padding:12px 14px;font-weight:600;cursor:pointer;font-size:.93rem}
-details p{padding:0 14px 12px;color:#334155;font-size:.92rem}
-.areas{display:flex;gap:8px;flex-wrap:wrap}
-.area{background:var(--acsoft);border:1px solid var(--ac);color:#0f172a;padding:5px 12px;border-radius:99px;font-size:.8rem;font-weight:600}
-.cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
-.cities a{display:block;background:#fff;border:1px solid #e2e8f0;border-radius:10px;padding:10px 14px;font-weight:600;text-decoration:none;color:#1e293b}
-.cities a:hover{border-color:var(--ac);color:var(--ac)}
-footer{margin-top:34px;padding:20px 0;border-top:1px solid #e2e8f0;color:#64748b;font-size:.78rem;text-align:center}
-footer a{color:#64748b}
-.leaflet-popup-content{font-size:.84rem;line-height:1.5}
-.pp b{display:block;margin-bottom:4px}
-.pp .row{color:#475569}
-.dirb{margin-top:8px;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
-#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:#0f172a;color:#fff;padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:999}
-#toast.show{opacity:1;transform:translateX(-50%)}
-@media(max-width:700px){#map{height:60vh}}
-</style>
+<meta name="theme-color" content="#0F172A" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#f6f8fb" media="(prefers-color-scheme: light)">
+<script>/* BLOCK:THEME-BOOT */(function(){try{var t=localStorage.getItem("theme")||"auto";document.documentElement.setAttribute("data-theme",t)}catch(e){document.documentElement.setAttribute("data-theme","auto")}})();</script>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="stylesheet" href="/theme.css">
 </head>
-<body>
-<header><div class="wrap"><div class="logo">E</div><div><b>EV Chargers Near Me</b><small>SKM Studio Network · live OSM data · DIGIPIN directions</small></div></div></header>
-<div class="hero"><div class="wrap">
-<h1>EV charging stations near you — live map</h1>
+<body class="map-page">
+<!-- BLOCK:HEADER -->
+<header id="block-header"><div class="wrap"><div class="logo">E</div><div><b>EV Chargers Near Me</b><small>SKM Studio Network · live OSM data · DIGIPIN directions</small></div></div></header>
+<!-- /BLOCK:HEADER -->
+<!-- BLOCK:HERO -->
+<div class="hero" id="block-hero"><div class="wrap">
+<h1 id="block-hero-h1">EV charging stations near you — live map</h1>
 <p>Every mapped charger on one map — filter by CCS2/Type 2, tap a pin for connector details and DIGIPIN-precise directions. Refreshed monthly.</p>
 <div class="search"><input id="q" placeholder="Search by name / area / operator…"><button id="locbtn">📍 Near me</button></div>
 <div class="chips" id="chips"></div>
 </div></div>
+<!-- /BLOCK:HERO -->
 <div class="wrap">
-<div class="mapbar"><span id="count">Pick a city…</span><span id="routeinfo"></span><span id="filters"></span><button class="fbtn" id="addbtn">➕ Add a missing spot</button></div>
+<!-- BLOCK:MAPBAR -->
+<div class="mapbar" id="block-mapbar"><span id="count">Pick a city…</span><span id="routeinfo"></span><span id="filters"></span><button class="fbtn" id="addbtn">➕ Add a missing spot</button></div>
+<!-- /BLOCK:MAPBAR -->
 <div id="addhint">📍 Now click the exact spot on the map — we'll generate its DIGIPIN and a suggestion you can submit for review.</div>
 <div id="map"></div>
-<div class="legend">● green = free · tap any pin → DIGIPIN + 🧭 directions drawn right here on the map · data © OpenStreetMap contributors (ODbL)</div>
+<!-- BLOCK:LEGEND -->
+<div class="legend" id="block-legend">● green = free · tap any pin → DIGIPIN + 🧭 directions drawn right here on the map · data © OpenStreetMap contributors (ODbL)</div>
 <div id="toast"></div>
-<main>
-<div class="card"><h2>Ev charging stations in Bhopal</h2>
+<!-- BLOCK:CONTENT -->
+<main id="block-content">
+<!-- BLOCK:CARD-ev-charging-stations-in-bhopal -->
+<div id="block-ev-charging-stations-in-bhopal" class="card"><h2 id="block-ev-charging-stations-in-bhopal-h2">Ev charging stations in Bhopal</h2>
 <p>Bhopal&#x27;s lakes and new city both covered — every mapped charging station from TT Nagar to Kolar Road on the live map.</p>
 <p>The map above shows <b><span id="citycount">…</span> charging stations</b> currently mapped across Bhopal — filter by your needs, tap a pin for its <b>DIGIPIN</b>, then tap <b>🧭 Directions</b> to draw the route on the map itself.</p>
 <div class="areas"><span class="area">New Market (TT Nagar)</span><span class="area">MP Nagar</span><span class="area">Arera Colony</span><span class="area">Kolar Road</span></div>
 <p class="legend" style="margin-top:10px">Popular Bhopal areas with mapped charging stations — zoom into any of them on the map.</p></div>
-<div class="card"><h2>🗺 How to find EV charging stations nearby</h2>
+<!-- /BLOCK:CARD-ev-charging-stations-in-bhopal -->
+<!-- BLOCK:CARD-how-to-find-ev-charging-stations-nearby -->
+<div id="block-how-to-find-ev-charging-stations-nearby" class="card"><h2 id="block-how-to-find-ev-charging-stations-nearby-h2">🗺 How to find EV charging stations nearby</h2>
 <p>The quickest method: search <b>"EV charging station near me"</b> on Google Maps. You'll see stations with locations and reviews. But before you drive there, <b>check live availability in the network's app</b> — chargers can be occupied, under maintenance, or behind a mall gate that closes at night.</p>
 <p>Major charging networks in India each have their own app with live status and payments:</p>
 <ul><li><b>Tata Power EZ Charge</b> — one of the largest networks, AC + DC across cities and highways</li>
@@ -101,21 +62,38 @@ footer a{color:#64748b}
 <li><b>ChargeZone</b> — highway-focused DC fast charging</li>
 <li><b>Reliance bp Pulse</b> — expanding network at Jio-bp outlets</li>
 <li><b>Ather Grid / dealer networks</b> — for two-wheelers</li></ul></div>
-<div class="card"><h2>🔌 Charger types in plain language</h2>
+<!-- /BLOCK:CARD-how-to-find-ev-charging-stations-nearby -->
+<!-- BLOCK:CARD-charger-types-in-plain-language -->
+<div id="block-charger-types-in-plain-language" class="card"><h2 id="block-charger-types-in-plain-language-h2">🔌 Charger types in plain language</h2>
 <h3>Slow (AC, ~2–3 kW)</h3><p>Your home wall socket — overnight charging, 8–12 hours for a typical EV.</p>
 <h3>Fast (AC, 7–22 kW)</h3><p>Found at malls, offices and hotels. Adds meaningful range in 2–4 hours. Connector: <b>Type 2</b>.</p>
 <h3>Rapid (DC, 25–60 kW)</h3><p>Highway and city fast chargers that charge a typical EV to 80% in about 45–60 minutes. Connector: <b>CCS2</b> on most Indian cars (some older/imported models use CHAdeMO or Bharat DC001).</p>
 <p><b>Rule of thumb:</b> AC for where you park long, DC for when you're on the move.</p></div>
-<div class="card"><h2>💰 What does charging cost?</h2>
+<!-- /BLOCK:CARD-charger-types-in-plain-language -->
+<!-- BLOCK:CARD-what-does-charging-cost -->
+<div id="block-what-does-charging-cost" class="card"><h2 id="block-what-does-charging-cost-h2">💰 What does charging cost?</h2>
 <p>Public charging in India is billed <b>per unit (kWh)</b>, and rates vary by network, state and charger speed. DC fast charging costs noticeably more than AC. Home charging remains by far the cheapest option for daily use.</p>
 <p>Payments happen through each network's app or RFID card — almost all support UPI. Some state discoms also run subsidised public chargers.</p></div>
-<div class="card"><h2>❓ Ev charging stations in Bhopal — FAQ</h2><details><summary>How do I find a working EV charger near me?</summary><p>Search 'EV charging station near me' on Google Maps, then confirm live availability in the network's app (Tata Power EZ Charge, Statiq, ChargeZone) before driving there.</p></details><details><summary>What is the difference between AC and DC charging?</summary><p>AC chargers (Type 2) are slower and best where you park for hours; DC fast chargers (CCS2) charge a typical EV to 80% in under an hour and are meant for quick stops.</p></details><details><summary>Which apps show EV charging stations in India?</summary><p>Tata Power EZ Charge, Statiq, ChargeZone and Google Maps together cover most public chargers in India.</p></details><details><summary>How much does public EV charging cost in India?</summary><p>Public charging is billed per kWh and varies by network, charger speed and state — DC fast charging costs more than AC. Home charging is the cheapest for daily use.</p></details></div>
-<div class="card"><h2>🗺 Other cities</h2><div class="cities"><a href="/delhi/">Delhi</a><a href="/mumbai/">Mumbai</a><a href="/bengaluru/">Bengaluru</a><a href="/hyderabad/">Hyderabad</a><a href="/chennai/">Chennai</a><a href="/kolkata/">Kolkata</a><a href="/pune/">Pune</a><a href="/ahmedabad/">Ahmedabad</a><a href="/jaipur/">Jaipur</a><a href="/lucknow/">Lucknow</a><a href="/surat/">Surat</a><a href="/indore/">Indore</a><a href="/chandigarh/">Chandigarh</a><a href="/bhopal/">Bhopal</a><a href="/nagpur/">Nagpur</a></div></div>
-</div><div class="card" style="border:2px dashed #cbd5e1"><h2>📚 Popular guides</h2><div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px"><a href="/" style="background:#16a34a;color:#fff;font-weight:800;padding:11px 20px;border-radius:11px;text-decoration:none;font-size:.95rem;box-shadow:0 3px 10px rgba(0,0,0,.15)">🗺 Open the live map</a><a href="/car-charging-stations-near-me/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">Car charging stations near me</a><a href="/dc-fast-charging-stations-near-me/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">DC fast charging stations near me</a><a href="/how-to-find-ev-charging-stations/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">How to find EV charging stations</a><a href="/tata-power-ev-charging-stations-near-me/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">Tata Power EV charging stations near me</a><a href="/ev-charging-networks-in-india/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">EV charging networks in India</a><a href="/free-ev-charging-stations-near-me/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">Free EV charging stations near me</a><a href="/ev-charging-cost-in-india/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">EV charging cost in India</a><a href="/battery-swapping-stations-near-me/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">Battery swapping stations near me</a><a href="/highway-ev-charging-stations-in-india/" style="border:2px solid #16a34a;color:#0f172a;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:#fff">Highway EV charging stations in India</a></div></div></main>
-<footer>EV Chargers Near Me — an SKM Studio Network site · <a href="https://evchargersnearme.pages.dev/">https://evchargersnearme.pages.dev</a> · Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
+<!-- /BLOCK:CARD-what-does-charging-cost -->
+<!-- BLOCK:CARD-ev-charging-stations-in-bhopal-faq -->
+<div id="block-ev-charging-stations-in-bhopal-faq" class="card"><h2 id="block-ev-charging-stations-in-bhopal-faq-h2">❓ Ev charging stations in Bhopal — FAQ</h2><details><summary>How do I find a working EV charger near me?</summary><p>Search 'EV charging station near me' on Google Maps, then confirm live availability in the network's app (Tata Power EZ Charge, Statiq, ChargeZone) before driving there.</p></details><details><summary>What is the difference between AC and DC charging?</summary><p>AC chargers (Type 2) are slower and best where you park for hours; DC fast chargers (CCS2) charge a typical EV to 80% in under an hour and are meant for quick stops.</p></details><details><summary>Which apps show EV charging stations in India?</summary><p>Tata Power EZ Charge, Statiq, ChargeZone and Google Maps together cover most public chargers in India.</p></details><details><summary>How much does public EV charging cost in India?</summary><p>Public charging is billed per kWh and varies by network, charger speed and state — DC fast charging costs more than AC. Home charging is the cheapest for daily use.</p></details></div>
+<!-- /BLOCK:CARD-ev-charging-stations-in-bhopal-faq -->
+<!-- BLOCK:CARD-other-cities -->
+<div id="block-other-cities" class="card"><h2 id="block-other-cities-h2">🗺 Other cities</h2><div class="cities"><a href="/delhi/">Delhi</a><a href="/mumbai/">Mumbai</a><a href="/bengaluru/">Bengaluru</a><a href="/hyderabad/">Hyderabad</a><a href="/chennai/">Chennai</a><a href="/kolkata/">Kolkata</a><a href="/pune/">Pune</a><a href="/ahmedabad/">Ahmedabad</a><a href="/jaipur/">Jaipur</a><a href="/lucknow/">Lucknow</a><a href="/surat/">Surat</a><a href="/indore/">Indore</a><a href="/chandigarh/">Chandigarh</a><a href="/bhopal/">Bhopal</a><a href="/nagpur/">Nagpur</a></div></div>
+<!-- /BLOCK:CARD-other-cities -->
+</div><!-- BLOCK:CARD-popular-guides -->
+<div id="block-popular-guides" class="card popcard"><h2 id="block-popular-guides-h2">📚 Popular guides</h2><div class="guidebar"><a href="/" class="btnp">🗺 Open the live map</a><a href="/car-charging-stations-near-me/" class="btns">Car charging stations near me</a><a href="/dc-fast-charging-stations-near-me/" class="btns">DC fast charging stations near me</a><a href="/how-to-find-ev-charging-stations/" class="btns">How to find EV charging stations</a><a href="/tata-power-ev-charging-stations-near-me/" class="btns">Tata Power EV charging stations near me</a><a href="/ev-charging-networks-in-india/" class="btns">EV charging networks in India</a><a href="/free-ev-charging-stations-near-me/" class="btns">Free EV charging stations near me</a><a href="/ev-charging-cost-in-india/" class="btns">EV charging cost in India</a><a href="/battery-swapping-stations-near-me/" class="btns">Battery swapping stations near me</a><a href="/highway-ev-charging-stations-in-india/" class="btns">Highway EV charging stations in India</a></div></div>
+<!-- /BLOCK:CARD-popular-guides --></main>
+<!-- /BLOCK:CONTENT -->
+<!-- BLOCK:FOOTER -->
+<footer id="block-footer">EV Chargers Near Me — an SKM Studio Network site · <a href="/">https://evchargersnearme.pages.dev</a> · Map data © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a> (ODbL)<br>
 General information only · Emergency? Call <b>112</b> · <a href="/privacy/">Privacy</a> · <a href="/about/">About</a></footer>
+<!-- /BLOCK:FOOTER -->
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>window.CFG={"cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}, "filters": [{"k": "ccs", "l": "CCS2 (DC fast)", "t": "!!p['socket:type2_combo']"}, {"k": "t2", "l": "Type 2 (AC)", "t": "!!p['socket:type2']"}, {"k": "chad", "l": "CHAdeMO", "t": "!!p['socket:chademo']"}], "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Fee", "b": 1}], "poiname": "charging station", "ac": "#16a34a", "data": null, "startCity": "bhopal"};</script>
+<script>window.CFG={"cities": {"delhi": {"name": "Delhi", "lat": 28.61, "lon": 77.21}, "mumbai": {"name": "Mumbai", "lat": 19.08, "lon": 72.88}, "bengaluru": {"name": "Bengaluru", "lat": 12.97, "lon": 77.59}, "hyderabad": {"name": "Hyderabad", "lat": 17.39, "lon": 78.49}, "chennai": {"name": "Chennai", "lat": 13.08, "lon": 80.27}, "kolkata": {"name": "Kolkata", "lat": 22.57, "lon": 88.36}, "pune": {"name": "Pune", "lat": 18.52, "lon": 73.86}, "ahmedabad": {"name": "Ahmedabad", "lat": 23.03, "lon": 72.58}, "jaipur": {"name": "Jaipur", "lat": 26.91, "lon": 75.79}, "lucknow": {"name": "Lucknow", "lat": 26.85, "lon": 80.95}, "surat": {"name": "Surat", "lat": 21.17, "lon": 72.83}, "indore": {"name": "Indore", "lat": 22.72, "lon": 75.86}, "chandigarh": {"name": "Chandigarh", "lat": 30.73, "lon": 76.78}, "bhopal": {"name": "Bhopal", "lat": 23.26, "lon": 77.41}, "nagpur": {"name": "Nagpur", "lat": 21.15, "lon": 79.09}}, "filters": [{"k": "ccs", "l": "CCS2 (DC fast)", "t": "!!p['socket:type2_combo']"}, {"k": "t2", "l": "Type 2 (AC)", "t": "!!p['socket:type2']"}, {"k": "chad", "l": "CHAdeMO", "t": "!!p['socket:chademo']"}], "popup": [{"k": "operator", "l": "Operator"}, {"k": "capacity", "l": "Bays"}, {"k": "opening_hours", "l": "Hours"}, {"k": "socket:type2", "l": "Type 2", "b": 1}, {"k": "socket:type2_combo", "l": "CCS2", "b": 1}, {"k": "socket:chademo", "l": "CHAdeMO", "b": 1}, {"k": "fee", "l": "Fee", "b": 1}], "poiname": "charging station", "ac": "#10B981", "data": null, "startCity": "bhopal"};</script>
+<script src="/site.js" defer></script>
 <script src="/mapapp.js" defer></script>
-<script defer src="/feedback.js" data-site="ev"></script></body>
+<script defer src="/feedback.js" data-site="ev"></script>
+<script src="/theme.js" defer></script>
+<script src="/pwa.js" defer></script></body>
 </html>
