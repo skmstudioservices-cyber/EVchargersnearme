@@ -1,0 +1,184 @@
+/* =====================================================================
+   EV Chargers Near Me — theme.css (single style source for the whole site)
+   ---------------------------------------------------------------------
+   - Brand / colour change = edit ONLY the :root variables below.
+   - Themes: html[data-theme="light"] | html[data-theme="dark"]
+     html[data-theme="auto"] follows the device setting (default).
+   - Block names match the <!-- BLOCK:X --> comments in the HTML pages.
+   - Page types: body.map-page (home + city) · body.kw-page (keyword pages)
+     · body.text-page (about / privacy).
+   ===================================================================== */
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+/* BLOCK:THEME-VARIABLES — brand lives here */
+:root{
+  --ac:#10B981;            /* primary accent (buttons, links, pins) */
+  --ac2:#34D399;            /* lighter accent (hovers, gradients) */
+  --acsoft:#d1fae5;         /* soft accent background */
+  --bg:#f6f8fb;             /* page background */
+  --surface:#ffffff;        /* cards, popups */
+  --surface2:#eef2f7;       /* inputs, secondary surfaces */
+  --text:#12203a;           /* main text */
+  --text2:#3d4a63;          /* card text */
+  --muted:#64748b;          /* secondary text */
+  --line:#e2e8f0;           /* borders */
+  --header-bg:#0F172A;      /* header + hero navy */
+  --on-dark:#e8eefb;        /* text on navy */
+  --shadow:0 1px 3px rgba(15,23,42,.05);
+}
+html[data-theme="dark"]{
+  --ac:#10B981;
+  --ac2:#34D399;
+  --acsoft:#0d3328;
+  --bg:#0F172A;
+  --surface:#16213a;
+  --surface2:#1b2a47;
+  --text:#e8eefb;
+  --text2:#c3cde0;
+  --muted:#8fa1bd;
+  --line:#26344f;
+  --header-bg:#0a1222;
+  --on-dark:#e8eefb;
+  --shadow:0 1px 3px rgba(0,0,0,.3);
+}
+@media (prefers-color-scheme:dark){
+  html[data-theme="auto"]{
+    --ac:#10B981;--ac2:#34D399;--acsoft:#0d3328;
+    --bg:#0F172A;--surface:#16213a;--surface2:#1b2a47;
+    --text:#e8eefb;--text2:#c3cde0;--muted:#8fa1bd;--line:#26344f;
+    --header-bg:#0a1222;--on-dark:#e8eefb;
+    --shadow:0 1px 3px rgba(0,0,0,.3);
+  }
+}
+
+/* ---------- base ---------- */
+body{font-family:ui-sans-serif,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+a{color:var(--ac)}
+.wrap{margin:0 auto;padding:0 18px}
+.map-page .wrap{max-width:1100px}
+.kw-page .wrap,.text-page .wrap{max-width:900px}
+.map-page{line-height:1.6}
+.kw-page,.text-page{line-height:1.65}
+
+/* BLOCK:HEADER */
+header{background:var(--header-bg);color:#fff;padding:14px 0}
+header .wrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{width:40px;height:40px;border-radius:11px;background:var(--ac);display:grid;place-items:center;font-weight:800;color:#fff}
+header b{font-size:1.05rem}
+header small{display:block;color:#94a3b8;font-size:.72rem}
+
+/* BLOCK:HERO */
+.hero{background:var(--header-bg);color:#fff;padding:28px 0 18px}
+.hero h1{font-size:clamp(1.5rem,3.6vw,2.1rem);letter-spacing:-.02em}
+.hero p{color:#cbd5e1;margin-top:8px;max-width:680px;font-size:.98rem}
+.search{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+.search input{flex:1;min-width:200px;padding:11px 14px;border-radius:10px;border:1px solid #334155;background:#1e293b;color:#fff;font-size:.95rem;font-family:inherit}
+.search input:focus{outline:1px solid var(--ac)}
+.search button{padding:11px 16px;border-radius:10px;border:none;background:var(--ac);color:#fff;font-weight:700;cursor:pointer;font-size:.9rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{padding:7px 14px;border-radius:99px;border:1px solid #334155;background:#1e293b;color:#cbd5e1;font-size:.82rem;cursor:pointer;font-weight:600;text-decoration:none;display:inline-block}
+.chip:hover{background:var(--ac);color:#fff;border-color:var(--ac)}
+
+/* BLOCK:MAPBAR + BLOCK:MAP (home / city pages) */
+.mapbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 0}
+#count{font-weight:700;font-size:.92rem}
+#routeinfo{font-size:.85rem;font-weight:700;color:#12203a;background:var(--acsoft);border:1px solid var(--ac);padding:6px 12px;border-radius:8px}
+html[data-theme="dark"] #routeinfo,html[data-theme="auto"] #routeinfo{color:#eafff5}
+.cpl{color:var(--ac);cursor:pointer;font-weight:700;font-size:.72rem}
+.fbtn{padding:5px 12px;border-radius:8px;border:1px solid var(--line);background:var(--surface);font-size:.78rem;font-weight:600;cursor:pointer;color:var(--text2)}
+.fbtn.on{background:var(--acsoft);border-color:var(--ac);color:var(--text)}
+#addbtn{margin-left:auto}
+#map{height:70vh;min-height:420px;border-radius:14px;border:1px solid var(--line);z-index:1}
+#addhint{display:none;background:#fef3c7;border:1px solid #f59e0b;color:#92400e;padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;margin-top:10px}
+.legend{font-size:.75rem;color:var(--muted);margin-top:8px}
+@media(max-width:700px){#map{height:60vh}}
+
+/* BLOCK:MAP (keyword pages) */
+#kwmap{height:380px;border-radius:12px;border:1px solid var(--line);z-index:1;background:var(--surface2)}
+.mapstat{font-weight:700;color:var(--text);font-size:.92rem}
+.kchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:12px}
+.kwc{padding:7px 13px;border-radius:99px;border:2px solid var(--ac);background:var(--surface);color:var(--text);font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
+.kwc.on{background:var(--ac);color:#fff}
+.mapbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+.nearbtn{padding:12px 20px;border-radius:12px;border:none;background:var(--header-bg);color:#fff;font-weight:800;cursor:pointer;font-size:.92rem;font-family:inherit}
+.mapcta{flex:1;min-width:220px;display:block;text-align:center;background:var(--ac);color:#fff;font-weight:800;font-size:1.02rem;padding:14px 20px;border-radius:12px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.mapcta:hover{filter:brightness(1.09);color:#fff}
+@media(max-width:700px){#kwmap{height:300px}}
+
+/* BLOCK:CONTENT (shared cards, FAQ, tables) */
+main{padding:26px 0 10px}
+.kw-page main,.text-page main{padding:8px 0 10px}
+h1{font-size:clamp(1.4rem,3.4vw,2rem);letter-spacing:-.02em;margin:6px 0 4px}
+.lead{color:#475569;font-size:1rem;margin:10px 0 4px}
+html[data-theme="dark"] .lead,html[data-theme="auto"] .lead{color:#a9b7d0}
+.ans{background:var(--acsoft);border:1px solid var(--ac);border-radius:12px;padding:14px 16px;margin:16px 0}
+.ans b:first-child{display:block;font-size:.78rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:16px 0;box-shadow:var(--shadow)}
+.card h2{font-size:1.12rem;margin-bottom:10px}
+.card h3{font-size:.97rem;margin:14px 0 6px}
+.card p{margin:8px 0;color:var(--text2);font-size:.95rem}
+.card ul,.card ol{margin:8px 0 8px 22px;color:var(--text2);font-size:.95rem}
+.card li{margin:6px 0}
+.tips{background:var(--acsoft);border:1px solid var(--ac)}
+table{width:100%;border-collapse:collapse;margin:10px 0;font-size:.9rem;color:var(--text2)}
+th,td{border:1px solid var(--line);padding:8px 10px;text-align:left;vertical-align:top}
+th{background:var(--surface2);color:var(--text)}
+details{border:1px solid var(--line);border-radius:10px;margin:8px 0;background:var(--surface);color:var(--text)}
+summary{padding:12px 14px;font-weight:600;cursor:pointer;font-size:.93rem}
+details p{padding:0 14px 12px;color:var(--text2);font-size:.92rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.chip{background:var(--acsoft);border:1px solid var(--ac);color:var(--text);padding:6px 13px;border-radius:99px;font-size:.82rem;font-weight:600;text-decoration:none;display:inline-block}
+.chip:hover{background:var(--ac);color:#fff}
+.areas{display:flex;gap:8px;flex-wrap:wrap}
+.area{background:var(--acsoft);border:1px solid var(--ac);color:var(--text);padding:5px 12px;border-radius:99px;font-size:.8rem;font-weight:600}
+.cities{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:10px}
+.cities a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px;font-weight:600;text-decoration:none;color:var(--text)}
+.cities a:hover{border-color:var(--ac);color:var(--ac)}
+.updated{font-size:.8rem;color:var(--muted);margin-top:2px}
+nav.crumbs{font-size:.8rem;color:var(--muted);padding:10px 0}
+
+/* guide buttons (were inline styles) */
+.btnp{background:var(--ac);color:#fff!important;font-weight:800;padding:11px 20px;border-radius:11px;text-decoration:none;font-size:.95rem;box-shadow:0 3px 10px rgba(0,0,0,.15);display:inline-block}
+.btns{border:2px solid var(--ac);color:var(--text)!important;font-weight:700;padding:9px 16px;border-radius:11px;text-decoration:none;font-size:.88rem;background:var(--surface);display:inline-block}
+.btnp:hover,.btns:hover{filter:brightness(1.07)}
+.popcard{border:2px dashed var(--line)!important}
+.guidebar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
+
+/* BLOCK:FOOTER */
+footer{margin-top:34px;padding:20px 0;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem;text-align:center}
+footer a{color:var(--muted)}
+
+/* map popup + dark tiles */
+.leaflet-popup-content{font-size:.84rem;line-height:1.5}
+.leaflet-popup-content-wrapper,.leaflet-popup-tip{background:var(--surface);color:var(--text)}
+.pp b{display:block;margin-bottom:4px}
+.pp .row{color:#475569}
+html[data-theme="dark"] .pp .row,html[data-theme="auto"] .pp .row{color:#a9b7d0}
+.dirb{margin-top:8px;background:var(--ac);color:#fff;border:none;border-radius:8px;padding:7px 12px;font-weight:700;cursor:pointer;font-size:.8rem;font-family:inherit}
+html[data-theme="dark"] .leaflet-tile,html[data-theme="auto"] .leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(.92) saturate(.75)}
+.leaflet-container{background:var(--surface2)}
+.leaflet-control-attribution{background:var(--surface)!important;color:var(--muted)!important}
+.leaflet-control-attribution a{color:var(--muted)!important}
+
+#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(10px);background:var(--header-bg);color:#fff;padding:10px 18px;border-radius:10px;font-size:.85rem;font-weight:600;opacity:0;transition:.3s;pointer-events:none;z-index:999}
+#toast.show{opacity:1;transform:translateX(-50%)}
+
+/* ---------- BLOCK:THEME-SWITCH (bulb, fixed bottom-right) ---------- */
+#themeBtn{position:fixed;right:16px;bottom:16px;z-index:1200;width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.25rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center}
+#themeBtn:hover{border-color:var(--ac)}
+#themeBtn .tl{position:absolute;right:52px;white-space:nowrap;background:var(--header-bg);color:#fff;font-size:.72rem;font-weight:700;padding:4px 10px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s}
+#themeBtn:hover .tl{opacity:1}
+
+/* ---------- BLOCK:PWA-INSTALL (conditional install card) ---------- */
+#installCard{position:fixed;left:50%;transform:translateX(-50%);bottom:16px;z-index:1100;width:min(94vw,420px);background:var(--surface);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 45px rgba(0,0,0,.28);padding:14px 16px;display:none;font-size:.9rem}
+#installCard.show{display:block}
+#installCard .ic-top{display:flex;align-items:flex-start;gap:10px}
+#installCard .ic-ico{font-size:1.6rem;line-height:1}
+#installCard .ic-t{font-weight:800;color:var(--text)}
+#installCard .ic-s{color:var(--muted);font-size:.78rem;margin-top:2px}
+#installCard button{font-family:inherit;cursor:pointer}
+#installCard .ic-x{margin-left:auto;border:none;background:none;font-size:1.05rem;color:var(--muted);padding:2px 4px}
+#installCard .ic-row{display:flex;gap:10px;margin-top:12px}
+#installCard .ic-go{flex:1;background:var(--ac);color:#fff;border:none;border-radius:10px;padding:11px 14px;font-weight:800;font-size:.9rem}
+#installCard .ic-no{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:10px;padding:11px 14px;font-weight:700;font-size:.9rem}
