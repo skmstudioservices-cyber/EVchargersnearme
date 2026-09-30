@@ -199,16 +199,20 @@ img,svg,canvas{max-width:100%}
 .cb-chip{display:inline-block;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface2);color:var(--text);font-size:.82rem;font-weight:600;text-decoration:none;white-space:nowrap}
 .cb-chip:hover{border-color:var(--ac);color:var(--ac)}
 .cb-more{margin-top:9px;background:none;border:1px dashed var(--line);border-radius:9px;color:var(--muted);font-weight:700;font-size:.78rem;padding:6px 12px;cursor:pointer;font-family:inherit;width:100%}
-/* collapse the extra sections until "Show more" */
-.cb-more-sec,.cb-sec:nth-child(n+4){display:none}
-.chipsblock.cb-open .cb-more-sec,.chipsblock.cb-open .cb-sec:nth-child(n+4){display:flex}
-.chipsblock.cb-open .cb-more{display:none}
+/* list is OPEN by default (new visitors); "Hide" collapses the extra sections */
+.cb-more-sec,.cb-sec:nth-child(n+4){display:flex}
+.chipsblock.cb-closed .cb-more-sec,.chipsblock.cb-closed .cb-sec:nth-child(n+4){display:none}
+.chipsblock.cb-closed .cb-more::after{content:""}
 
 /* ================= BLOCK:CORNER-ACTIONS ================= */
-.cornerCluster{position:fixed;right:16px;bottom:74px;z-index:1200;display:flex;flex-direction:column;gap:8px}
-.cbtn{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.15rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center}
+.cornerCluster{position:fixed;right:16px;bottom:74px;z-index:1200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
+.cbtn{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.05rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit}
 .cbtn:hover{border-color:var(--ac)}
-@media(max-width:700px){.cornerCluster{right:12px;bottom:70px;gap:7px}.cbtn{width:42px;height:42px;font-size:1.05rem}}
+.cbtn .cb-lb{font-size:.72rem;font-weight:800}
+.cbtoggle{background:var(--header-bg);color:#fff;border-color:transparent}
+/* collapsed = only the toggle shows */
+.cornerCluster:not(.open) .cbtn:not(.cbtoggle){display:none}
+@media(max-width:700px){.cornerCluster{right:12px;bottom:78px;gap:7px}.cbtn{padding:7px 10px}.cbtn .cb-lb{font-size:.68rem}}
 
 /* ================= BLOCK:ROUTE-COLOUR picker ================= */
 .rc-wrap{display:flex;align-items:center;gap:6px;font-size:.75rem;color:var(--muted);font-weight:700}
@@ -232,10 +236,13 @@ img,svg,canvas{max-width:100%}
 .sug-thanks{text-align:center;padding:14px 6px;font-size:.95rem}
 
 /* ================= BLOCK:PWA-TABS (mobile bottom nav) ================= */
-.pwatabs{position:fixed;left:0;right:0;bottom:0;z-index:1150;display:none;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.06)}
-.pwatab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:7px 0 8px;font-size:1.05rem;text-decoration:none;color:var(--muted)}
-.pwatab span{font-size:.68rem;font-weight:700}
-.pwatab:hover,.pwatab:active{color:var(--ac)}
+.pwatabs{position:fixed;left:0;right:0;bottom:0;z-index:1150;display:none;align-items:center;justify-content:space-around;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.10);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
+.pwatab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 0;text-decoration:none;color:var(--muted)}
+.pwatab .pt-ic{font-size:1.35rem;line-height:1}
+.pwatab .pt-lb{font-size:.66rem;font-weight:800}
+.pwatab:active,.pwatab:hover{color:var(--ac)}
+.pwadd{flex:none;width:56px;height:56px;margin-top:-20px;border-radius:50%;border:4px solid var(--surface);background:var(--ac);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center}
+.pwadd:active{transform:scale(.95)}
 @media(max-width:700px){.pwatabs{display:flex}}
 /* keep the corner cluster + bulb clear of the bottom tabs */
 @media(max-width:700px){.cornerCluster{bottom:78px}#themeBtn{bottom:14px}}

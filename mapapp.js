@@ -97,24 +97,21 @@ function siteThemeNow(){
   if(t==="auto"){try{return matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}catch(e){return "light"}}
   return t;
 }
-function mapThemePref(){try{return localStorage.getItem("maptheme")||"auto"}catch(e){return "auto"}}
+function mapThemePref(){try{var v=localStorage.getItem("maptheme");return (v==="light"||v==="dark")?v:"dark"}catch(e){return "dark"}}
 function applyMapTheme(){
-  var want=mapThemePref(); if(want==="auto")want=siteThemeNow();
-  var t=TILES[want]||TILES.light;
+  var want=mapThemePref();
+  var t=TILES[want]||TILES.dark;
   if(tileL)map.removeLayer(tileL);
   tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr}).addTo(map);
   if(mapThemeBtn)mapThemeBtn.textContent=(want==="dark"?"\u2600\ufe0f":"\ud83c\udf19");
 }
 function cycleMapTheme(){
-  var order=["auto","light","dark"],cur=mapThemePref();
-  var nx=order[(order.indexOf(cur)+1)%order.length];
+  var nx=(mapThemePref()==="dark")?"light":"dark";
   try{localStorage.setItem("maptheme",nx)}catch(e){}
   applyMapTheme();
-  toast("Map: "+({auto:"follows site",light:"light",dark:"dark"}[nx]));
+  toast("Map tiles: "+nx);
 }
 applyMapTheme();
-try{new MutationObserver(function(){if(mapThemePref()==="auto")applyMapTheme();})
-  .observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});}catch(e){}
 function ICONFN(c){
   var n=c.getChildCount(),s=n<100?"small":(n<1000?"medium":"large");
   return L_.divIcon({html:'<div><span>'+n.toLocaleString("en-IN")+"</span></div>",
@@ -571,8 +568,8 @@ function suggest(lat,lon){openSuggest(lat,lon);}
     var favs=(ls(LS_FAV,"")||"").split(",").filter(Boolean);
     if(favs.length){body.appendChild(sec("\u2b50 Favourites",favs,""));}
     block.appendChild(body);
-    var more=el("button","cb-more","Show more \u25be");more.type="button";
-    more.onclick=function(){var open=block.classList.toggle("cb-open");more.textContent=open?"Show less \u25b4":"Show more \u25be";};
+    var more=el("button","cb-more","Hide \u25b4");more.type="button";
+    more.onclick=function(){var closed=block.classList.toggle("cb-closed");more.textContent=closed?"Show more \u25be":"Hide \u25b4";};
     block.appendChild(more);
     if(mapEl.parentNode)mapEl.parentNode.insertBefore(block,mapEl.nextSibling);
   }
@@ -597,37 +594,42 @@ function suggest(lat,lon){openSuggest(lat,lon);}
     }
   }catch(e){}
 
-  /* corner action cluster (sits above the bulb) */
+  /* corner action cluster - collapsible, one-word labels, open by default for new visitors */
   if(!document.getElementById("cornerCluster")){
     var cl=el("div","cornerCluster");cl.id="cornerCluster";
-    function cbtn(id,icon,label,fn){var b=el("button","cbtn",icon);b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
-    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Map light / dark",cycleMapTheme));
+    var st=ls("ma_corner","open"); if(st!=="closed")cl.classList.add("open");
+    function cbtn(id,icon,label,fn){var b=el("button","cbtn","<span class=\"cb-ic\">"+icon+"</span><span class=\"cb-lb\">"+label+"</span>");b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
+    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Map tiles",cycleMapTheme));
     mapThemeBtn=document.getElementById("cbMapTheme");
-    cl.appendChild(cbtn("cbFav","\u2b50","Save favourite city",function(){
+    cl.appendChild(cbtn("cbFav","\u2b50","Favourite",function(){
       var c=map.getCenter(),best=null,bd=1e9;
       Object.keys(C.cities).forEach(function(k){var d=Math.pow(C.cities[k].lat-c.lat,2)+Math.pow(C.cities[k].lon-c.lng,2);if(d<bd){bd=d;best=k;}});
       if(!best)return;
-      var favs=(ls(LS_FAV,"")||"").split(",").filter(Boolean);
-      var i=favs.indexOf(best);
-      if(i<0){favs.push(best);toast(C.cities[best].name+" added to \u2b50 favourites");}else{favs.splice(i,1);toast(C.cities[best].name+" removed from favourites");}
+      var favs=(ls(LS_FAV,"")||"").split(",").filter(Boolean);var i=favs.indexOf(best);
+      if(i<0){favs.push(best);toast(C.cities[best].name+" added to favourites");}else{favs.splice(i,1);toast(C.cities[best].name+" removed");}
       lsSet(LS_FAV,favs.join(","));
     }));
-    cl.appendChild(cbtn("cbReport","\ud83d\udce2","Report a problem",function(){openSuggest();}));
-    cl.appendChild(cbtn("cbFeedback","\ud83d\udcac","Send feedback",function(){
-      if(window.openFeedback)window.openFeedback();else toast("Feedback: use the popup or email us");
-    }));
+    cl.appendChild(cbtn("cbReport","\ud83d\udce2","Report",function(){openSuggest();}));
+    cl.appendChild(cbtn("cbFeedback","\ud83d\udcac","Feedback",function(){if(window.openFeedback)window.openFeedback();else toast("Feedback: use the popup or email us");}));
+    var tog=el("button","cbtn cbtoggle","<span class=\"cb-ic\">\u2699\ufe0f</span><span class=\"cb-lb\">Tools</span>");
+    tog.type="button";tog.id="cbToggle";tog.title="Show / hide tools";
+    tog.onclick=function(){var open=cl.classList.toggle("open");lsSet("ma_corner",open?"open":"closed");};
+    cl.appendChild(tog);
     document.body.appendChild(cl);
   }
 
-  /* PWA bottom tabs (mobile) - jump links, non-embed pages only */
+  /* PWA bottom tabs (mobile) - app-like bar with a centre circular Add button */
   if(!EMBED&&!document.getElementById("pwaTabs")){
     var tabs=el("nav","pwatabs");tabs.id="pwaTabs";
-    var items=[["#map","\ud83d\uddfa","Map"],["#block-content","\ud83d\udd0c","Guides"],["#block-what-does-charging-cost","\ud83d\udcb0","Costs"],["#block-frequently-asked-questions","\u2753","FAQ"]];
-    items.forEach(function(it){
-      var a=el("a","pwtab",it[1]+"<span>"+it[2]+"</span>");a.href=it[0];
-      a.onclick=function(e){var t=document.querySelector(it[0]);if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth",block:"start"});}};
-      tabs.appendChild(a);
-    });
+    function tab(href,icon,label,fn){var a=el("a","pwtab","<span class=\"pt-ic\">"+icon+"</span><span class=\"pt-lb\">"+label+"</span>");a.href=href;
+      a.onclick=function(e){if(fn){e.preventDefault();fn();}else{var t=document.querySelector(href);if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth",block:"start"});}}};return a;}
+    tabs.appendChild(tab("#map","\ud83d\uddfa","Map"));
+    tabs.appendChild(tab("#block-content","\ud83d\udd0c","Guides"));
+    var add=el("button","pwadd","\u2795");add.type="button";add.title="Add a place";add.setAttribute("aria-label","Add a place");
+    add.onclick=function(){openSuggest();};
+    tabs.appendChild(add);
+    tabs.appendChild(tab("#block-what-does-charging-cost","\ud83d\udcb0","Costs"));
+    tabs.appendChild(tab("#block-frequently-asked-questions","\u2753","FAQ"));
     document.body.appendChild(tabs);
   }
 })();
