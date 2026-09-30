@@ -19,29 +19,33 @@ jobs:
           const targets = [
             ['home', B + '/?cb=' + CB],
             ['bengaluru', B + '/bengaluru/?cb=' + CB],
-            ['kw', B + '/how-to-find-ev-charging-stations/?cb=' + CB]
+            ['kw', B + '/how-to-find-ev-charging-stations/?cb=' + CB],
+            ['privacy', B + '/privacy/?cb=' + CB]
           ];
           const browser = await chromium.launch();
           const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
           for (const [name, url] of targets) {
             const page = await ctx.newPage();
-            const errs = [], failed = [];
+            const errs = [];
             page.on('console', m => { if (m.type() === 'error') errs.push(m.text().slice(0, 140)); });
             page.on('pageerror', e => errs.push('PAGEERROR ' + String(e).slice(0, 160)));
-            page.on('requestfailed', r => failed.push(r.url().slice(0, 100) + ' :: ' + (r.failure() ? r.failure().errorText : '')));
             try { await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 }); } catch (e) { errs.push('GOTO ' + e.message.slice(0, 90)); }
-            await page.waitForTimeout(7000);
-            const pins = await page.locator('.leaflet-marker-icon, .marker-cluster, .leaflet-interactive, path.leaflet-interactive').count();
+            await page.waitForTimeout(6000);
+            const pins = await page.locator('.leaflet-marker-icon, .marker-cluster, .leaflet-interactive').count();
             let countTxt = null;
             try { countTxt = await page.locator('#count, #kwcount').first().textContent({ timeout: 3000 }); } catch (e) {}
-            const themeBtn = await page.locator('#themeBtn').count();
-            const themeAttr = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
-            const tileImgs = await page.locator('img.leaflet-tile').count();
-            await page.screenshot({ path: 'shot-' + name + '.png' });
+            const chips = await page.locator('#chipsBlock .cb-chip').count();
+            const filters = await page.locator('#filters .fbtn').count();
+            const corner = await page.locator('#cornerCluster .cbtn').count();
+            const tabs = await page.locator('#pwaTabs .pwtab').count();
+            const addbtnHidden = await page.locator('#addbtn').isVisible().catch(() => null);
+            const tiles = await page.locator('img.leaflet-tile').count();
+            const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+            await page.screenshot({ path: 'shot-' + name + '.png', fullPage: false });
             console.log('--- ' + name + ' ---');
-            console.log('pins:' + pins + ' | count_text:' + countTxt + ' | themeBtn:' + themeBtn + ' | data-theme:' + themeAttr + ' | tiles:' + tileImgs);
-            console.log('console_errors:' + JSON.stringify(errs.slice(0, 6)));
-            console.log('failed_requests:' + JSON.stringify(failed.slice(0, 6)));
+            console.log('pins:' + pins + ' | count:' + countTxt);
+            console.log('chips:' + chips + ' | filters:' + filters + ' | corner:' + corner + ' | tabs:' + tabs + ' | addbtnVisible:' + addbtnHidden + ' | tiles:' + tiles);
+            console.log('hOverflowPx:' + overflow + ' | errors:' + JSON.stringify(errs.slice(0, 5)));
             await page.close();
           }
           await browser.close();
