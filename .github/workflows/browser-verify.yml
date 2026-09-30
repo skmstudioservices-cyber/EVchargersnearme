@@ -10,40 +10,34 @@ jobs:
           node-version: "20"
       - name: install playwright
         run: npm i playwright@1.47.2 && npx playwright install --with-deps chromium
-      - name: dark + light checks
+      - name: monetag + sw checks
         run: |
           cat > check.mjs <<'JSEOF'
           import { chromium } from 'playwright';
           const B = 'https://evchargersnearme.pages.dev';
           const CB = Date.now();
           const browser = await chromium.launch();
-          async function probe(name, colorScheme, extra) {
-            const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme });
-            const page = await ctx.newPage();
-            const errs = [];
-            page.on('pageerror', e => errs.push('PAGEERROR ' + String(e).slice(0, 150)));
-            await page.goto(B + '/?cb=' + CB, { waitUntil: 'networkidle', timeout: 60000 }).catch(e => errs.push('GOTO'));
-            await page.waitForTimeout(5000);
-            if (extra) { await extra(page); await page.waitForTimeout(2500); }
-            const theme = await page.evaluate(() => document.documentElement.getAttribute('data-theme'));
-            const tileSrc = await page.evaluate(() => { const t = document.querySelector('img.leaflet-tile'); return t ? t.src : null; });
-            const pins = await page.locator('.leaflet-marker-icon, .marker-cluster').count();
-            const bodyBg = await page.evaluate(() => getComputedStyle(document.body).backgroundColor);
-            await page.screenshot({ path: 'shot-' + name + '.png' });
-            console.log('--- ' + name + ' ---');
-            console.log('data-theme:' + theme + ' | bodyBg:' + bodyBg + ' | pins:' + pins);
-            console.log('tileSrc:' + (tileSrc ? tileSrc.slice(0, 70) : 'none'));
-            console.log('errors:' + JSON.stringify(errs.slice(0, 3)));
-            await ctx.close();
-          }
-          await probe('light', 'light');
-          await probe('dark', 'dark');
-          await probe('dark-manual-tiles', 'light', async (p) => { await p.click('#cbMapTheme'); });
+          const ctx = await browser.newContext({ viewport: { width: 390, height: 844 } });
+          const page = await ctx.newPage();
+          const reqs = [], errs = [];
+          page.on('request', r => { const u = r.url(); if (u.includes('quge5.com') || u.includes('monetag') || u.includes('tag.min.js')) reqs.push('REQ ' + u.slice(0, 80)); });
+          page.on('pageerror', e => errs.push('PAGEERROR ' + String(e).slice(0, 140)));
+          await page.goto(B + '/?cb=' + CB, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => {});
+          await page.waitForTimeout(6000);
+          const tagInDom = await page.locator('script[src*="tag.min.js"]').count();
+          const tagZone = await page.evaluate(() => { const s = document.querySelector('script[src*="tag.min.js"]'); return s ? s.getAttribute('data-zone') : null; });
+          const sw = await page.evaluate(async () => { try { const r = await navigator.serviceWorker.getRegistrations(); return r.map(x => x.active ? x.active.scriptURL : 'pending'); } catch (e) { return ['err:' + e.message]; } });
+          const pins = await page.locator('.leaflet-marker-icon, .marker-cluster').count();
+          console.log('monetag_tag_in_dom:' + tagInDom + ' | data_zone:' + tagZone);
+          console.log('sw_registrations:' + JSON.stringify(sw));
+          console.log('monetag_requests:' + JSON.stringify(reqs.slice(0, 5)));
+          console.log('pins:' + pins + ' | pageerrors:' + JSON.stringify(errs.slice(0, 3)));
+          // also confirm the tag does NOT load on privacy (should be conditional)
+          const p2 = await ctx.newPage();
+          await p2.goto(B + '/privacy/?cb=' + CB, { waitUntil: 'domcontentloaded', timeout: 60000 }).catch(() => {});
+          await p2.waitForTimeout(3000);
+          const tagOnPrivacy = await p2.locator('script[src*="tag.min.js"]').count();
+          console.log('tag_on_privacy(expect 0):' + tagOnPrivacy);
           await browser.close();
           JSEOF
           node check.mjs
-      - uses: actions/upload-artifact@v4
-        if: always()
-        with:
-          name: shots
-          path: shot-*.png
