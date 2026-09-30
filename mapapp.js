@@ -11,7 +11,7 @@ var ac = C.ac || "#0d9488";
 var mapEl = EMBED ? document.getElementById("kwmap") : document.getElementById("map");
 if (!mapEl) return;
 
-/* ---------- cluster CSS ---------- */
+/* ===== BLOCK:JS-CLUSTER-CSS ===== */
 if (!document.getElementById("mc-css")) {
   [["mc-css","https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"],
    ["mc-css2","https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"]]
@@ -21,7 +21,7 @@ if (!document.getElementById("mc-css")) {
   });
 }
 
-/* ---------- DIGIPIN encode + decode ---------- */
+/* ===== BLOCK:JS-DIGIPIN ===== */
 var GRID=[["F","C","9","8"],["J","3","2","7"],["K","4","5","6"],["L","M","P","T"]];
 var B={minLat:2.5,maxLat:38.5,minLon:63.5,maxLon:99.5};
 function getDigiPin(lat,lon){
@@ -49,7 +49,7 @@ function fromDigiPin(pin){
   return {lat:+((mnLt+mxLt)/2).toFixed(6),lon:+((mnLn+mxLn)/2).toFixed(6)};
 }
 
-/* ---------- state ---------- */
+/* ===== BLOCK:JS-STATE ===== */
 var L_=window.L,map,cluster=null,routeL=null,all=[],flts={},q="",dest=null,TF={};
 var searchMk=null,routeinfo=null,resultsEl=null,geoTimer=null;
 (C.filters||[]).forEach(function(f){TF[f.k]=new Function("p","return ("+f.t+")");});
@@ -62,7 +62,7 @@ function toast(m){
 }
 window.copyT=function(t){if(navigator.clipboard)navigator.clipboard.writeText(t).then(function(){toast("Copied \u2713");});};
 
-/* ---------- map init ---------- */
+/* ===== BLOCK:JS-MAP-INIT ===== */
 map=L_.map(mapEl);
 if(C.startCity&&C.cities[C.startCity])map.setView([C.cities[C.startCity].lat,C.cities[C.startCity].lon],11);
 else if(EMBED){var dk=C.def||Object.keys(C.cities)[0];map.setView([C.cities[dk].lat,C.cities[dk].lon],11);}
@@ -77,7 +77,7 @@ function ICONFN(c){
 function mkCluster(){return L_.markerClusterGroup({showCoverageOnHover:false,maxClusterRadius:55,spiderfyOnMaxZoom:true,iconCreateFunction:ICONFN});}
 cluster=mkCluster();
 
-/* ---------- load ALL cities ---------- */
+/* ===== BLOCK:JS-DATA-LOAD ===== */
 function loadAll(){
   var keys=Object.keys(C.cities),done=0;
   keys.forEach(function(s){
@@ -95,7 +95,7 @@ function loadAll(){
   });
 }
 
-/* ---------- popup ---------- */
+/* ===== BLOCK:JS-POPUP ===== */
 function esc(s){var d=document.createElement("div");d.textContent=s;return d.innerHTML;}
 function pp(f){
   var p=f.properties||{},lat=f.geometry.coordinates[1],lon=f.geometry.coordinates[0];
@@ -115,7 +115,7 @@ function pp(f){
   return h;
 }
 
-/* ---------- render ---------- */
+/* ===== BLOCK:JS-RENDER ===== */
 function render(){
   if(cluster)map.removeLayer(cluster);
   cluster=mkCluster();
@@ -143,7 +143,7 @@ function updateCount(){
 }
 map.on("moveend zoomend",updateCount);
 
-/* ---------- geocoding ---------- */
+/* ===== BLOCK:JS-GEOCODING ===== */
 function closeResults(){if(resultsEl){resultsEl.remove();resultsEl=null;}}
 function showResults(list,cb,inp){
   closeResults();
@@ -184,7 +184,7 @@ function parseOrigin(v,cb){
   geocode(v,function(r){cb(r[0]||null);});
 }
 
-/* ---------- search ---------- */
+/* ===== BLOCK:JS-SEARCH ===== */
 function resolveQuery(v,cb){
   v=(v||"").trim();
   var m=v.match(/^(-?\d{1,2}\.\d+)[ ,]+(-?\d{1,3}\.\d+)$/);
@@ -232,7 +232,7 @@ var qEl=document.getElementById(EMBED?"kwq":"q");
 if(qEl)bindSearch(qEl);
 window.MA={clearPin:function(){if(searchMk){map.removeLayer(searchMk);searchMk=null;}}};
 
-/* ---------- origin bar + routing ---------- */
+/* ===== BLOCK:JS-ROUTING ===== */
 var originWrap=document.createElement("div");
 originWrap.style.cssText="display:none;gap:8px;flex-wrap:wrap;align-items:center;margin:10px 0 0";
 originWrap.innerHTML='<input id="origin" placeholder="From: place name, DIGIPIN, lat,lon or pincode" '+
@@ -275,7 +275,7 @@ function drawRoute(fLat,fLon,quiet){
      if(!quiet)toast("Route drawn on map \u2713 \u2014 tap \u25b6 Start live to follow");
    }).catch(function(){if(!quiet)drawLine(fLat,fLon);});
 }
-/* ---------- live follow navigation ---------- */
+/* ===== BLOCK:JS-LIVE-NAV ===== */
 var nav={active:false,watch:null,umk:null,acirc:null,geom:null,from:null,lastCalc:0};
 function hav(a,b,c,d){var R=6371000,t=Math.PI/180,dl=(c-a)*t,dn=(d-b)*t;
   var x=Math.sin(dl/2)*Math.sin(dl/2)+Math.cos(a*t)*Math.cos(c*t)*Math.sin(dn/2)*Math.sin(dn/2);
@@ -354,7 +354,7 @@ document.getElementById("originme").onclick=function(){
   originWrap.insertBefore(b,originWrap.lastChild);
 })();
 
-/* ---------- non-embed extras ---------- */
+/* ===== BLOCK:JS-EXTRAS ===== */
 if(!EMBED){
   var locbtn=document.getElementById("locbtn");
   if(locbtn)locbtn.onclick=function(){
@@ -418,7 +418,7 @@ if(!EMBED){
   }
 }
 
-/* ---------- suggest flow ---------- */
+/* ===== BLOCK:JS-SUGGEST ===== */
 function suggest(lat,lon){
   var dp=getDigiPin(lat,lon)||"outside-range";
   var title=encodeURIComponent("Suggested "+C.poiname+" at "+dp);
