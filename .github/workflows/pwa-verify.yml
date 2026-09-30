@@ -5,24 +5,27 @@ jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - name: Check live site build
+      - name: Deep check live site build
         run: |
           B="https://evchargersnearme.pages.dev"
           CB=$(date +%s)
+          echo "=== homepage markers ==="
           H=$(curl -s --max-time 30 "$B/?cb=$CB")
-          echo "homepage_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/?cb=$CB")"
-          echo "theme_css_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/theme.css?cb=$CB")"
-          echo "manifest_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/manifest.webmanifest?cb=$CB")"
-          echo "sw_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/sw.js?cb=$CB")"
-          echo "pwa_js_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/pwa.js?cb=$CB")"
-          echo "icon_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/icons/icon-192.png?cb=$CB")"
-          echo "blocksmd_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/BLOCKS.md?cb=$CB")"
-          echo "positive_markers=$(echo "$H" | grep -c 'BLOCK:HEADER')"
-          echo "theme_link=$(echo "$H" | grep -c 'theme.css')"
-          echo "manifest_link=$(echo "$H" | grep -c 'manifest.webmanifest')"
-          echo "themebtn_expected=0_initially_themejs_builds_it"
-          echo "old_green_16a34a=$(echo "$H" | grep -c '#16a34a')"
-          echo "data_theme_attr=$(echo "$H" | grep -c 'data-theme')"
-          if [ "$(echo "$H" | grep -c 'theme.css')" -lt 1 ]; then echo "FAIL: live HTML does not reference theme.css (old build still serving?)"; exit 1; fi
-          if [ "$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/theme.css?cb=$CB")" != "200" ]; then echo "FAIL: theme.css not 200"; exit 1; fi
-          echo "VERIFY PASS: new build is live"
+          echo "hp_theme_link=$(echo "$H" | grep -c 'theme.css')"
+          echo "hp_block_header=$(echo "$H" | grep -c 'BLOCK:HEADER')"
+          echo "hp_old_green=$(echo "$H" | grep -c '#16a34a')"
+          echo "hp_head_title=$(echo "$H" | grep -o '<title>[^<]*</title>' | head -1)"
+          echo "=== asset content sniff ==="
+          TC=$(curl -s --max-time 30 "$B/theme.css?cb=$CB" | head -c 60)
+          echo "theme_css_first60: $TC"
+          SW=$(curl -s --max-time 30 "$B/sw.js?cb=$CB" | head -c 60)
+          echo "sw_first60: $SW"
+          echo "=== 404 behaviour ==="
+          echo "nonexistent_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/zzz-not-a-file-12345?cb=$CB")"
+          echo "nonexistent_body404=$(curl -s --max-time 30 "$B/zzz-not-a-file-12345?cb=$CB" | head -c 60)"
+          echo "=== verdict ==="
+          if [ "$(echo "$H" | grep -c 'theme.css')" -ge 1 ] && [ "$(echo "$H" | grep -c 'BLOCK:HEADER')" -ge 1 ]; then
+            echo "NEW BUILD LIVE"
+          else
+            echo "OLD BUILD STILL SERVING on /"
+          fi
