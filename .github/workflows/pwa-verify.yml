@@ -9,23 +9,24 @@ jobs:
         run: |
           B="https://evchargersnearme.pages.dev"
           CB=$(date +%s)
-          echo "=== homepage markers ==="
+          echo "=== homepage ==="
           H=$(curl -s --max-time 30 "$B/?cb=$CB")
           echo "hp_theme_link=$(echo "$H" | grep -c 'theme.css')"
           echo "hp_block_header=$(echo "$H" | grep -c 'BLOCK:HEADER')"
           echo "hp_old_green=$(echo "$H" | grep -c '#16a34a')"
-          echo "hp_head_title=$(echo "$H" | grep -o '<title>[^<]*</title>' | head -1)"
-          echo "=== asset content sniff ==="
-          TC=$(curl -s --max-time 30 "$B/theme.css?cb=$CB" | head -c 60)
-          echo "theme_css_first60: $TC"
-          SW=$(curl -s --max-time 30 "$B/sw.js?cb=$CB" | head -c 60)
-          echo "sw_first60: $SW"
-          echo "=== 404 behaviour ==="
-          echo "nonexistent_http=$(curl -s -o /dev/null -w '%{http_code}' --max-time 30 "$B/zzz-not-a-file-12345?cb=$CB")"
-          echo "nonexistent_body404=$(curl -s --max-time 30 "$B/zzz-not-a-file-12345?cb=$CB" | head -c 60)"
-          echo "=== verdict ==="
-          if [ "$(echo "$H" | grep -c 'theme.css')" -ge 1 ] && [ "$(echo "$H" | grep -c 'BLOCK:HEADER')" -ge 1 ]; then
-            echo "NEW BUILD LIVE"
-          else
-            echo "OLD BUILD STILL SERVING on /"
-          fi
+          echo "hp_mapapp=$(echo "$H" | grep -c 'mapapp.js')"
+          echo "hp_site_js=$(echo "$H" | grep -c 'site.js')"
+          echo "=== bengaluru page ==="
+          BG=$(curl -s --max-time 30 "$B/bengaluru/?cb=$CB")
+          echo "bg_block_header=$(echo "$BG" | grep -c 'BLOCK:HEADER')"
+          echo "bg_mapapp=$(echo "$BG" | grep -c 'mapapp.js')"
+          echo "bg_startcity=$(echo "$BG" | grep -c 'startCity')"
+          echo "bg_title=$(echo "$BG" | grep -o '<title>[^<]*</title>' | head -1)"
+          echo "=== live data files ==="
+          echo "data_bengaluru_first80: $(curl -s --max-time 30 "$B/data/bengaluru.json?cb=$CB" | head -c 80)"
+          echo "data_bengaluru_size: $(curl -s --max-time 30 "$B/data/bengaluru.json?cb=$CB" | wc -c)"
+          echo "data_delhi_size: $(curl -s --max-time 30 "$B/data/delhi.json?cb=$CB" | wc -c)"
+          echo "=== live js files ==="
+          echo "mapapp_first60: $(curl -s --max-time 30 "$B/mapapp.js?cb=$CB" | head -c 60)"
+          echo "sitejs_first60: $(curl -s --max-time 30 "$B/site.js?cb=$CB" | head -c 60)"
+          echo "themecss_first40: $(curl -s --max-time 30 "$B/theme.css?cb=$CB" | head -c 40)"
