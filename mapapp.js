@@ -613,9 +613,9 @@ function suggest(lat,lon){openSuggest(lat,lon);}
     cl.appendChild(cbtn("cbReport","\ud83d\udce2","Report",function(){openSuggest();}));
     cl.appendChild(cbtn("cbFeedback","\ud83d\udcac","Feedback",function(){if(window.openFeedback)window.openFeedback();else toast("Feedback: use the popup or email us");}));
     cl.appendChild(cbtn("cbTheme","\ud83d\udca1","Theme",function(){var b=document.getElementById("themeBtn");if(b)b.click();}));
-    var tog=el("button","cbtn cbtoggle","<span class=\"cb-ic\">\u2699\ufe0f</span><span class=\"cb-lb\">Tools</span>");
+    var tog=el("button","cbtn cbtoggle","<span class=\"cb-ic\">\u25be</span>");
     tog.type="button";tog.id="cbToggle";tog.title="Show / hide tools";
-    tog.onclick=function(){var open=cl.classList.toggle("open");lsSet("ma_corner",open?"open":"closed");};
+    tog.onclick=function(){var open=cl.classList.toggle("open");lsSet("ma_corner",open?"open":"closed");tog.innerHTML="<span class=\"cb-ic\">"+(open?"\u25be":"\ud83e\uddf0")+"</span>";};
     cl.appendChild(tog);
     document.body.appendChild(cl);
   }
