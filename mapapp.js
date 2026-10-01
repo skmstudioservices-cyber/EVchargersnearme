@@ -88,8 +88,8 @@ else map.setView([22.8,79],4);
 var TILES={
   light:{url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",max:19,
          attr:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'},
-  dark:{url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",max:16,
-        attr:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'}
+  dark:{url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",max:19,
+        attr:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}
 };
 var tileL=null,mapThemeBtn=null;
 function siteThemeNow(){
@@ -100,19 +100,10 @@ function siteThemeNow(){
 function mapThemePref(){try{var v=localStorage.getItem("maptheme");return (v==="light"||v==="dark")?v:"dark"}catch(e){return "dark"}}
 function applyMapTheme(){
   var want=mapThemePref();
-  var t=TILES[want]||TILES.light;
+  var t=TILES.light;                       /* always OSM - no key-gated provider */
   if(tileL)map.removeLayer(tileL);
-  var errs=0;
-  tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr});
-  tileL.on("tileerror",function(){
-    errs++;
-    if(errs>=3&&want==="dark"){            /* dark provider down/key-gated -> fall back to normal OSM */
-      try{localStorage.setItem("maptheme","light")}catch(e){}
-      toast("Dark map unavailable \u2014 using normal map");
-      applyMapTheme();
-    }
-  });
-  tileL.addTo(map);
+  tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr}).addTo(map);
+  try{map.getContainer().classList.toggle("mapdark",want==="dark");}catch(e){}
   if(mapThemeBtn)mapThemeBtn.textContent=(want==="dark"?"\u2600\ufe0f":"\ud83c\udf19");
 }
 function cycleMapTheme(){
@@ -609,7 +600,7 @@ function suggest(lat,lon){openSuggest(lat,lon);}
     var cl=el("div","cornerCluster");cl.id="cornerCluster";
     var st=ls("ma_corner","open"); if(st!=="closed")cl.classList.add("open");
     function cbtn(id,icon,label,fn){var b=el("button","cbtn","<span class=\"cb-ic\">"+icon+"</span><span class=\"cb-lb\">"+label+"</span>");b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
-    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Map tiles",cycleMapTheme));
+    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Colour",cycleMapTheme));
     mapThemeBtn=document.getElementById("cbMapTheme");
     cl.appendChild(cbtn("cbFav","\u2b50","Favourite",function(){
       var c=map.getCenter(),best=null,bd=1e9;

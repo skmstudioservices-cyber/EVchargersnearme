@@ -246,3 +246,7 @@ img,svg,canvas{max-width:100%}
 @media(max-width:700px){.pwatabs{display:flex}}
 /* keep the corner cluster + bulb clear of the bottom tabs */
 @media(max-width:700px){.cornerCluster{bottom:78px}#themeBtn{bottom:14px}}
+
+/* map dark colour: OSM tiles + a mild filter so labels stay readable (no key-gated provider) */
+.mapdark .leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.88) saturate(.7)}
+.mapdark .leaflet-container{background:#0f172a}
