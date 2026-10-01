@@ -88,8 +88,8 @@ else map.setView([22.8,79],4);
 var TILES={
   light:{url:"https://tile.openstreetmap.org/{z}/{x}/{y}.png",max:19,
          attr:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'},
-  dark:{url:"https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",max:20,
-        attr:'&copy; OpenStreetMap &copy; <a href="https://carto.com/attributions">CARTO</a>'}
+  dark:{url:"https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",max:16,
+        attr:'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'}
 };
 var tileL=null,mapThemeBtn=null;
 function siteThemeNow(){
@@ -100,9 +100,19 @@ function siteThemeNow(){
 function mapThemePref(){try{var v=localStorage.getItem("maptheme");return (v==="light"||v==="dark")?v:"dark"}catch(e){return "dark"}}
 function applyMapTheme(){
   var want=mapThemePref();
-  var t=TILES[want]||TILES.dark;
+  var t=TILES[want]||TILES.light;
   if(tileL)map.removeLayer(tileL);
-  tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr}).addTo(map);
+  var errs=0;
+  tileL=L_.tileLayer(t.url,{maxZoom:t.max,attribution:t.attr});
+  tileL.on("tileerror",function(){
+    errs++;
+    if(errs>=3&&want==="dark"){            /* dark provider down/key-gated -> fall back to normal OSM */
+      try{localStorage.setItem("maptheme","light")}catch(e){}
+      toast("Dark map unavailable \u2014 using normal map");
+      applyMapTheme();
+    }
+  });
+  tileL.addTo(map);
   if(mapThemeBtn)mapThemeBtn.textContent=(want==="dark"?"\u2600\ufe0f":"\ud83c\udf19");
 }
 function cycleMapTheme(){
