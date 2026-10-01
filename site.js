@@ -28,6 +28,8 @@ window.SITE={
   /* Monetag Multitag (docs: help.monetag.com -> Multitag). Tag zone + push SW zone. */
   monetag: { tagSrc: "https://quge5.com/88/tag.min.js", tagZoneId: "289165",
              swDomain: "3nbf4.com", swZoneId: 11929785 },
+  /* Monetag Vignette (in-page interstitial). Same conditional gate as the Multitag. */
+  vignette: { src: "https://n6wxm.com/vignette.min.js", zoneId: "11934430" },
   paths: { privacy: "/privacy/", about: "/about/", map: "/" }
 };
 /* ===== BLOCK:ADS (Monetag Multitag, conditional) =====
@@ -43,6 +45,14 @@ window.SITE={
   s.src=M.tagSrc;s.async=true;s.setAttribute("data-zone",String(M.tagZoneId));
   s.setAttribute("data-cfasync","false");
   document.head.appendChild(s);
+  /* Vignette (in-page interstitial) — injected under the same allow gate. */
+  var V=(window.SITE&&window.SITE.vignette)||{};
+  if(V.src&&V.zoneId){
+    var v=document.createElement("script");
+    v.src=V.src;v.async=true;v.setAttribute("data-zone",String(V.zoneId));
+    v.setAttribute("data-cfasync","false");
+    document.head.appendChild(v);
+  }
   try{window.gtag&&window.gtag("event","ad_tag_injected",{path:path});}catch(e){}
 })();
 })();
