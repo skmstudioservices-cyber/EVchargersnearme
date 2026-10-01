@@ -250,3 +250,6 @@ img,svg,canvas{max-width:100%}
 /* map dark colour: OSM tiles + a mild filter so labels stay readable (no key-gated provider) */
 .mapdark .leaflet-tile{filter:invert(1) hue-rotate(180deg) brightness(.95) contrast(.88) saturate(.7)}
 .mapdark .leaflet-container{background:#0f172a}
+
+/* brand logo (matches favicon / PWA icons) */
+.brandlogo{width:40px;height:40px;border-radius:11px;display:block;flex:none}
