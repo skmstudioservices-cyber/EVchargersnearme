@@ -599,8 +599,8 @@ function suggest(lat,lon){openSuggest(lat,lon);}
   if(!document.getElementById("cornerCluster")){
     var cl=el("div","cornerCluster");cl.id="cornerCluster";
     var st=ls("ma_corner","open"); if(st!=="closed")cl.classList.add("open");
-    function cbtn(id,icon,label,fn){var b=el("button","cbtn","<span class=\"cb-ic\">"+icon+"</span><span class=\"cb-lb\">"+label+"</span>");b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
-    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Colour",cycleMapTheme));
+    function cbtn(id,icon,label,fn){var b=el("button","cbtn","<span class=\"cb-lb\">"+label+"</span><span class=\"cb-ic\">"+icon+"</span>");b.id=id;b.type="button";b.title=label;b.setAttribute("aria-label",label);b.onclick=fn;return b;}
+    cl.appendChild(cbtn("cbMapTheme","\ud83c\udf19","Map colour",cycleMapTheme));
     mapThemeBtn=document.getElementById("cbMapTheme");
     cl.appendChild(cbtn("cbFav","\u2b50","Favourite",function(){
       var c=map.getCenter(),best=null,bd=1e9;
@@ -612,6 +612,7 @@ function suggest(lat,lon){openSuggest(lat,lon);}
     }));
     cl.appendChild(cbtn("cbReport","\ud83d\udce2","Report",function(){openSuggest();}));
     cl.appendChild(cbtn("cbFeedback","\ud83d\udcac","Feedback",function(){if(window.openFeedback)window.openFeedback();else toast("Feedback: use the popup or email us");}));
+    cl.appendChild(cbtn("cbTheme","\ud83d\udca1","Theme",function(){var b=document.getElementById("themeBtn");if(b)b.click();}));
     var tog=el("button","cbtn cbtoggle","<span class=\"cb-ic\">\u2699\ufe0f</span><span class=\"cb-lb\">Tools</span>");
     tog.type="button";tog.id="cbToggle";tog.title="Show / hide tools";
     tog.onclick=function(){var open=cl.classList.toggle("open");lsSet("ma_corner",open?"open":"closed");};
@@ -622,7 +623,7 @@ function suggest(lat,lon){openSuggest(lat,lon);}
   /* PWA bottom tabs (mobile) - app-like bar with a centre circular Add button */
   if(!EMBED&&!document.getElementById("pwaTabs")){
     var tabs=el("nav","pwatabs");tabs.id="pwaTabs";
-    function tab(href,icon,label,fn){var a=el("a","pwtab","<span class=\"pt-ic\">"+icon+"</span><span class=\"pt-lb\">"+label+"</span>");a.href=href;
+    function tab(href,icon,label,fn){var a=el("a","pwtab","<span class=\"pt-ic\">"+icon+"</span>");a.title=label;a.setAttribute("aria-label",label);a.href=href;
       a.onclick=function(e){if(fn){e.preventDefault();fn();}else{var t=document.querySelector(href);if(t){e.preventDefault();t.scrollIntoView({behavior:"smooth",block:"start"});}}};return a;}
     tabs.appendChild(tab("#map","\ud83d\uddfa","Map"));
     tabs.appendChild(tab("#block-content","\ud83d\udd0c","Guides"));

@@ -206,9 +206,10 @@ img,svg,canvas{max-width:100%}
 
 /* ================= BLOCK:CORNER-ACTIONS ================= */
 .cornerCluster{position:fixed;right:16px;bottom:74px;z-index:1200;display:flex;flex-direction:column;gap:8px;align-items:flex-end}
-.cbtn{display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.05rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit}
+.cbtn{display:flex;align-items:center;gap:8px;width:152px;justify-content:space-between;padding:8px 12px;border-radius:22px;border:1px solid var(--line);background:var(--surface);color:var(--text);font-size:1.05rem;line-height:1;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.18);font-family:inherit}
 .cbtn:hover{border-color:var(--ac)}
-.cbtn .cb-lb{font-size:.72rem;font-weight:800}
+.cbtn .cb-lb{font-size:.72rem;font-weight:800;flex:1;text-align:left}
+.cbtn .cb-ic{flex:none}
 .cbtoggle{background:var(--header-bg);color:#fff;border-color:transparent}
 /* collapsed = only the toggle shows */
 .cornerCluster:not(.open) .cbtn:not(.cbtoggle){display:none}
@@ -239,7 +240,8 @@ img,svg,canvas{max-width:100%}
 .pwatabs{position:fixed;left:0;right:0;bottom:0;z-index:1150;display:none;align-items:center;justify-content:space-around;background:var(--surface);border-top:1px solid var(--line);box-shadow:0 -2px 12px rgba(0,0,0,.10);padding:6px 4px calc(6px + env(safe-area-inset-bottom))}
 .pwatab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;padding:6px 0;text-decoration:none;color:var(--muted)}
 .pwatab .pt-ic{font-size:1.35rem;line-height:1}
-.pwatab .pt-lb{font-size:.66rem;font-weight:800}
+.pwatab .pt-lb{display:none}
+.pwatab .pt-ic{font-size:1.5rem}
 .pwatab:active,.pwatab:hover{color:var(--ac)}
 .pwadd{flex:none;width:56px;height:56px;margin-top:-20px;border-radius:50%;border:4px solid var(--surface);background:var(--ac);color:#fff;font-size:1.5rem;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.28);display:flex;align-items:center;justify-content:center}
 .pwadd:active{transform:scale(.95)}
@@ -253,3 +255,7 @@ img,svg,canvas{max-width:100%}
 
 /* brand logo (matches favicon / PWA icons) */
 .brandlogo{width:40px;height:40px;border-radius:11px;display:block;flex:none}
+
+/* bulb now lives inside the corner bar (single vertical bar) */
+#themeBtn{display:none!important}
+.pwatab.active,.pwatab:hover{color:var(--ac)}
