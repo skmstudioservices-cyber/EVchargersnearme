@@ -197,3 +197,18 @@
 
 # Search results are thin — never index them
 /search  /  301
+
+# Ghost-link fixes (footer/nav targets that had no page) — added 2026-10-10
+/ccs2/  /  301
+/type2/  /  301
+/chademo/  /  301
+/bharat-dc-001/  /  301
+/tata-power-ez-charge/  /  301
+/statiq/  /  301
+/chargezone/  /  301
+/jio-bp-pulse/  /  301
+/ev-charging-cost-in-india/  /  301
+/highway-ev-charging-stations-in-india/  /  301
+/accessible-ev-charging-india/  /  301
+/battery-swapping-stations-near-me/  /  301
+/admin/  /  301
