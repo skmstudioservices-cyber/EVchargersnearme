@@ -1,58 +1,64 @@
-/* sw.js — service worker for EV Chargers Near Me.
-   Strategy:
-   - Core assets + city data (same-origin): stale-while-revalidate -> instant loads,
-     works offline after first visit, quietly refreshes in the background.
-   - HTML pages: network-first (fresh content), cache fallback offline.
-   - Cross-origin (unpkg, OSM tiles, Nominatim/OSRM, Supabase): straight to network,
-     never cached. */
-/* Monetag push service worker (merged into this single service worker - one SW per scope;
-   this file IS the root /sw.js, so no separate Monetag sw file is needed).
-   try/catch so an ad-network outage can never break our PWA offline cache. */
-try{
-  self.options = { "domain": "3nbf4.com", "zoneId": 11929785 };
-  self.lary = "";
-  importScripts("https://3nbf4.com/act/files/service-worker.min.js?r=sw");
-}catch(e){}
+/* ============================================================
+   Service worker — offline shell + static data cache.
+   Cache-first for the app shell and station JSON so repeat visits
+   never touch the network (and never touch D1).
+   ============================================================ */
 
-var VERSION="ev-pwa-v1";
-var CORE=[
-  "/", "/index.html",
-  "/theme.css", "/site.js", "/mapapp.js", "/feedback.js", "/theme.js", "/pwa.js",
-  "/favicon.svg", "/icons/icon-192.png", "/icons/icon-512.png",
-  "/manifest.webmanifest"
+const VERSION = 'evnm-v1';
+const SHELL = [
+  '/',
+  '/index.html',
+  '/src/styles/tokens.css',
+  '/src/styles/components.css',
+  '/src/js/app.js',
+  '/src/data/stations.js',
+  '/manifest.webmanifest',
+  '/icon.svg'
 ];
-self.addEventListener("install",function(e){
-  e.waitUntil(caches.open(VERSION).then(function(c){return c.addAll(CORE)}).then(function(){return self.skipWaiting()}).catch(function(){}));
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
 });
-self.addEventListener("activate",function(e){
-  e.waitUntil(caches.keys().then(function(keys){
-    return Promise.all(keys.filter(function(k){return k!==VERSION}).map(function(k){return caches.delete(k)}));
-  }).then(function(){return self.clients.claim()}));
+
+self.addEventListener('activate', e => {
+  e.waitUntil(
+    caches.keys()
+      .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+      .then(() => self.clients.claim())
+  );
 });
-self.addEventListener("fetch",function(e){
-  if(e.request.method!=="GET")return;
-  var url=new URL(e.request.url);
-  if(url.origin!==location.origin)return;               /* cross-origin: pass through */
-  if(url.pathname.indexOf("/data/")===0){               /* city data: stale-while-revalidate */
-    e.respondWith(caches.open(VERSION).then(function(c){
-      return c.match(e.request).then(function(hit){
-        var net=fetch(e.request).then(function(r){ if(r.ok)c.put(e.request,r.clone()); return r; }).catch(function(){return hit});
-        return hit||net;
-      });
-    }));return;
+
+self.addEventListener('fetch', e => {
+  const { request } = e;
+  if (request.method !== 'GET') return;
+  const url = new URL(request.url);
+
+  // Never cache analytics or reports.
+  if (url.pathname.startsWith('/api/')) return;
+
+  // Map tiles: cache-first, bounded by the browser cache.
+  if (/tile|basemaps|arcgisonline/.test(url.hostname)) {
+    e.respondWith(
+      caches.match(request).then(hit => hit || fetch(request).then(res => {
+        const copy = res.clone();
+        caches.open(VERSION + '-tiles').then(c => c.put(request, copy)).catch(() => {});
+        return res;
+      }).catch(() => hit))
+    );
+    return;
   }
-  if(/\.(css|js|png|svg|webmanifest|ico|json)$/.test(url.pathname)||url.pathname==="/"){
-    e.respondWith(caches.open(VERSION).then(function(c){
-      return c.match(e.request).then(function(hit){
-        var net=fetch(e.request).then(function(r){ if(r.ok)c.put(e.request,r.clone()); return r; }).catch(function(){return hit});
-        return hit||net;
-      });
-    }));return;
-  }
-  /* HTML pages: network-first */
-  e.respondWith(fetch(e.request).then(function(r){
-    var cp=r.clone();caches.open(VERSION).then(function(c){c.put(e.request,cp)});return r;
-  }).catch(function(){
-    return caches.match(e.request).then(function(h){return h||caches.match("/index.html")});
-  }));
+
+  // Navigation + shell + data: cache-first, then network, offline fallback to '/'.
+  e.respondWith(
+    caches.match(request).then(hit => {
+      if (hit) return hit;
+      return fetch(request).then(res => {
+        if (res.ok && (url.origin === location.origin)) {
+          const copy = res.clone();
+          caches.open(VERSION).then(c => c.put(request, copy)).catch(() => {});
+        }
+        return res;
+      }).catch(() => caches.match('/index.html'));
+    })
+  );
 });

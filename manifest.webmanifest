@@ -1,16 +1,76 @@
 {
   "name": "EV Chargers Near Me",
-  "short_name": "EV Near Me",
-  "description": "Live map of EV charging stations across 15 Indian cities — connector types, operators, DIGIPIN directions. Works offline.",
-  "start_url": "/?src=pwa",
+  "short_name": "EV Chargers Near Me",
+  "description": "Live map of public EV charging stations across India. Filter by connector, set a radius, estimate charging cost. Free, no signup.",
+  "start_url": "/?utm_source=pwa",
   "scope": "/",
   "display": "standalone",
-  "orientation": "portrait-primary",
-  "background_color": "#0F172A",
-  "theme_color": "#0F172A",
+  "orientation": "any",
+  "background_color": "#071410",
+  "theme_color": "#071410",
+  "lang": "en-IN",
+  "dir": "ltr",
+  "categories": [
+    "travel",
+    "navigation",
+    "utilities"
+  ],
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
-  ]
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Chargers near me",
+      "url": "/?action=near",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "Cost calculator",
+      "url": "/#cost",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    },
+    {
+      "name": "My saved stations",
+      "url": "/?action=fav",
+      "icons": [
+        {
+          "src": "/icon-192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
 }
