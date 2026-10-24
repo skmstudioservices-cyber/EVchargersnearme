@@ -1,0 +1,48 @@
+name: Restore old design (pre-redesign)
+
+# Restores the repo to the state just BEFORE the Astro redesign commit
+# 6d1a43be (10 Oct 2026) - the design the owner prefers.
+# Reversible: the new state stays in git history.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: 'Commit to restore TO'
+        required: false
+        default: '6d1a43be^'
+      apply:
+        description: 'Type APPLY to actually push (else dry-run)'
+        required: true
+        default: ''
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Restore
+        env:
+          TARGET: ${{ inputs.target }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          git config user.name "skm-bot"
+          git config user.email "bot@skmstudioservices.local"
+          echo "Restoring to: $TARGET"
+          echo "--- files that will be RESTORED ---"
+          git diff --stat "$TARGET" HEAD | tail -30
+          echo "--- files ADDED since (will be removed) ---"
+          git diff --diff-filter=A --name-only "$TARGET" HEAD | head -40
+          if [ "$APPLY" != "APPLY" ]; then
+            echo "DRY RUN - nothing changed. Re-run with apply=APPLY to push."
+            exit 0
+          fi
+          git checkout "$TARGET" -- .
+          git diff --diff-filter=A --name-only "$TARGET" HEAD | while read -r f; do [ -n "$f" ] && rm -f "$f"; done
+          git add -A
+          git diff --cached --quiet && echo "nothing to restore" || git commit -m "revert(design): restore the pre-10-Oct design (undo Astro redesign)"
+          git push
