@@ -1,0 +1,500 @@
+{
+  "generatedAt": "2026-10-10",
+  "license": "https://opendatacommons.org/licenses/odbl/1-0/",
+  "attribution": "Map data © OpenStreetMap contributors, ODbL. Crowd-verified by EV Chargers Near Me.",
+  "count": 23,
+  "cities": [
+    {
+      "slug": "delhi",
+      "name": "Delhi",
+      "lat": 28.6139,
+      "lng": 77.209,
+      "count": 5
+    },
+    {
+      "slug": "mumbai",
+      "name": "Mumbai",
+      "lat": 19.076,
+      "lng": 72.8777,
+      "count": 3
+    },
+    {
+      "slug": "bengaluru",
+      "name": "Bengaluru",
+      "lat": 12.9716,
+      "lng": 77.5946,
+      "count": 3
+    },
+    {
+      "slug": "hyderabad",
+      "name": "Hyderabad",
+      "lat": 17.385,
+      "lng": 78.4867,
+      "count": 2
+    },
+    {
+      "slug": "chennai",
+      "name": "Chennai",
+      "lat": 13.0827,
+      "lng": 80.2707,
+      "count": 2
+    },
+    {
+      "slug": "kolkata",
+      "name": "Kolkata",
+      "lat": 22.5726,
+      "lng": 88.3639,
+      "count": 2
+    },
+    {
+      "slug": "pune",
+      "name": "Pune",
+      "lat": 18.5204,
+      "lng": 73.8567,
+      "count": 2
+    },
+    {
+      "slug": "jaipur",
+      "name": "Jaipur",
+      "lat": 26.9124,
+      "lng": 75.7873,
+      "count": 1
+    }
+  ],
+  "stations": [
+    {
+      "id": "dl-001",
+      "name": "Tata Power EZ Charge — Connaught Place",
+      "city": "Delhi",
+      "area": "Connaught Place",
+      "lat": 28.6315,
+      "lng": 77.2167,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 19,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-08"
+    },
+    {
+      "id": "dl-002",
+      "name": "Statiq — Nehru Place",
+      "city": "Delhi",
+      "area": "Nehru Place",
+      "lat": 28.5494,
+      "lng": 77.25,
+      "connectors": [
+        "ccs2",
+        "type2",
+        "chademo"
+      ],
+      "kw": 60,
+      "tariff": 20,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Statiq",
+      "verified": "2026-10-05"
+    },
+    {
+      "id": "dl-003",
+      "name": "Jio-bp pulse — Aerocity",
+      "city": "Delhi",
+      "area": "Aerocity",
+      "lat": 28.5548,
+      "lng": 77.12,
+      "connectors": [
+        "ccs2"
+      ],
+      "kw": 120,
+      "tariff": 22,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Jio-bp pulse",
+      "verified": "2026-10-09"
+    },
+    {
+      "id": "dl-004",
+      "name": "ChargeZone — Dwarka Sector 21",
+      "city": "Delhi",
+      "area": "Dwarka",
+      "lat": 28.5523,
+      "lng": 77.058,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 30,
+      "tariff": 17,
+      "hours": "06:00-23:00",
+      "accessible": null,
+      "status": "busy",
+      "network": "ChargeZone",
+      "verified": "2026-10-02"
+    },
+    {
+      "id": "dl-005",
+      "name": "Municipal — Rajiv Chowk Parking",
+      "city": "Delhi",
+      "area": "Rajiv Chowk",
+      "lat": 28.6328,
+      "lng": 77.2197,
+      "connectors": [
+        "type2"
+      ],
+      "kw": 7,
+      "tariff": 0,
+      "hours": "06:00-22:00",
+      "accessible": true,
+      "status": "open",
+      "network": "MCD",
+      "verified": "2026-09-28"
+    },
+    {
+      "id": "mb-001",
+      "name": "Tata Power EZ Charge — BKC",
+      "city": "Mumbai",
+      "area": "Bandra Kurla Complex",
+      "lat": 19.0654,
+      "lng": 72.8656,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 20,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-07"
+    },
+    {
+      "id": "mb-002",
+      "name": "Statiq — Andheri East",
+      "city": "Mumbai",
+      "area": "Andheri East",
+      "lat": 19.1136,
+      "lng": 72.8697,
+      "connectors": [
+        "ccs2",
+        "chademo"
+      ],
+      "kw": 60,
+      "tariff": 21,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Statiq",
+      "verified": "2026-10-04"
+    },
+    {
+      "id": "mb-003",
+      "name": "ChargeZone — Powai",
+      "city": "Mumbai",
+      "area": "Powai",
+      "lat": 19.1197,
+      "lng": 72.9051,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 30,
+      "tariff": 18,
+      "hours": "06:00-23:00",
+      "accessible": null,
+      "status": "open",
+      "network": "ChargeZone",
+      "verified": "2026-10-01"
+    },
+    {
+      "id": "bl-001",
+      "name": "Ather Grid — Indiranagar",
+      "city": "Bengaluru",
+      "area": "Indiranagar",
+      "lat": 12.9719,
+      "lng": 77.6412,
+      "connectors": [
+        "type2"
+      ],
+      "kw": 7,
+      "tariff": 0,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Ather Grid",
+      "verified": "2026-10-08"
+    },
+    {
+      "id": "bl-002",
+      "name": "Tata Power EZ Charge — Whitefield",
+      "city": "Bengaluru",
+      "area": "Whitefield",
+      "lat": 12.9698,
+      "lng": 77.75,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 19,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-06"
+    },
+    {
+      "id": "bl-003",
+      "name": "Jio-bp pulse — Electronic City",
+      "city": "Bengaluru",
+      "area": "Electronic City",
+      "lat": 12.8452,
+      "lng": 77.6602,
+      "connectors": [
+        "ccs2"
+      ],
+      "kw": 120,
+      "tariff": 22,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Jio-bp pulse",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "hy-001",
+      "name": "Statiq — HITEC City",
+      "city": "Hyderabad",
+      "area": "HITEC City",
+      "lat": 17.4435,
+      "lng": 78.3772,
+      "connectors": [
+        "ccs2",
+        "type2",
+        "chademo"
+      ],
+      "kw": 60,
+      "tariff": 20,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Statiq",
+      "verified": "2026-10-07"
+    },
+    {
+      "id": "hy-002",
+      "name": "ChargeZone — Gachibowli",
+      "city": "Hyderabad",
+      "area": "Gachibowli",
+      "lat": 17.4401,
+      "lng": 78.3489,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 30,
+      "tariff": 18,
+      "hours": "06:00-23:00",
+      "accessible": null,
+      "status": "open",
+      "network": "ChargeZone",
+      "verified": "2026-10-02"
+    },
+    {
+      "id": "ch-001",
+      "name": "Tata Power EZ Charge — OMR Sholinganallur",
+      "city": "Chennai",
+      "area": "Sholinganallur",
+      "lat": 12.901,
+      "lng": 80.2279,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 19,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-05"
+    },
+    {
+      "id": "ch-002",
+      "name": "Statiq — Anna Nagar",
+      "city": "Chennai",
+      "area": "Anna Nagar",
+      "lat": 13.085,
+      "lng": 80.2101,
+      "connectors": [
+        "ccs2",
+        "chademo"
+      ],
+      "kw": 60,
+      "tariff": 21,
+      "hours": "24h",
+      "accessible": null,
+      "status": "busy",
+      "network": "Statiq",
+      "verified": "2026-09-30"
+    },
+    {
+      "id": "ko-001",
+      "name": "Tata Power EZ Charge — Salt Lake",
+      "city": "Kolkata",
+      "area": "Salt Lake",
+      "lat": 22.5726,
+      "lng": 88.411,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 19,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-06"
+    },
+    {
+      "id": "ko-002",
+      "name": "ChargeZone — New Town",
+      "city": "Kolkata",
+      "area": "New Town",
+      "lat": 22.585,
+      "lng": 88.46,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 30,
+      "tariff": 18,
+      "hours": "06:00-23:00",
+      "accessible": null,
+      "status": "open",
+      "network": "ChargeZone",
+      "verified": "2026-10-01"
+    },
+    {
+      "id": "pu-001",
+      "name": "Tata Power EZ Charge — Hinjewadi",
+      "city": "Pune",
+      "area": "Hinjewadi",
+      "lat": 18.5913,
+      "lng": 73.7389,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 19,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-08"
+    },
+    {
+      "id": "pu-002",
+      "name": "Jio-bp pulse — Wakad",
+      "city": "Pune",
+      "area": "Wakad",
+      "lat": 18.5975,
+      "lng": 73.762,
+      "connectors": [
+        "ccs2"
+      ],
+      "kw": 120,
+      "tariff": 22,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Jio-bp pulse",
+      "verified": "2026-10-04"
+    },
+    {
+      "id": "ja-001",
+      "name": "Statiq — Mansarovar",
+      "city": "Jaipur",
+      "area": "Mansarovar",
+      "lat": 26.85,
+      "lng": 75.76,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 60,
+      "tariff": 20,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Statiq",
+      "verified": "2026-10-03"
+    },
+    {
+      "id": "hw-001",
+      "name": "Jio-bp pulse — Delhi–Jaipur NH-48 (Behror)",
+      "city": "Behror",
+      "area": "NH-48",
+      "lat": 27.8878,
+      "lng": 76.286,
+      "connectors": [
+        "ccs2"
+      ],
+      "kw": 120,
+      "tariff": 23,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Jio-bp pulse",
+      "verified": "2026-10-09"
+    },
+    {
+      "id": "hw-002",
+      "name": "Tata Power EZ Charge — Mumbai–Pune Expressway (Khalapur)",
+      "city": "Khalapur",
+      "area": "Expressway",
+      "lat": 18.808,
+      "lng": 73.27,
+      "connectors": [
+        "ccs2",
+        "type2"
+      ],
+      "kw": 50,
+      "tariff": 21,
+      "hours": "24h",
+      "accessible": true,
+      "status": "open",
+      "network": "Tata Power",
+      "verified": "2026-10-07"
+    },
+    {
+      "id": "hw-003",
+      "name": "Statiq — Bengaluru–Mysuru NH-275 (Channapatna)",
+      "city": "Channapatna",
+      "area": "NH-275",
+      "lat": 12.6514,
+      "lng": 77.2065,
+      "connectors": [
+        "ccs2",
+        "type2",
+        "chademo"
+      ],
+      "kw": 60,
+      "tariff": 20,
+      "hours": "24h",
+      "accessible": null,
+      "status": "open",
+      "network": "Statiq",
+      "verified": "2026-10-05"
+    }
+  ]
+}
