@@ -1,0 +1,45 @@
+name: Re-apply assets lost in restore
+
+# Re-applies design-agnostic assets that the 10-Oct restore dropped,
+# taken from the pre-restore head. No Astro files. .github/ untouched.
+
+on:
+  workflow_dispatch:
+    inputs:
+      from:
+        description: 'Commit to copy the assets FROM'
+        required: false
+        default: '97c8aefee33542c6d0b2f0262acd685cbdcfc19c'
+      apply:
+        description: 'Type APPLY to push (else dry-run)'
+        required: true
+        default: 'dry'
+
+jobs:
+  reapply:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Re-apply
+        env:
+          FROM: ${{ inputs.from }}
+          APPLY: ${{ inputs.apply }}
+        run: |
+          git config user.name "skm-bot"
+          git config user.email "bot@skmstudioservices.local"
+          FILES="e26fc0fb7d7041ab8426b5cb01418673.txt favicon.ico icon-192.png icon-512.png icon.svg og/home.png _redirects _headers api/stations.json js/monetag.js"
+          echo "Copying from $FROM:"
+          for f in $FILES; do
+            if git cat-file -e "$FROM:$f" 2>/dev/null; then echo "  OK  $f"; else echo "  MISS $f"; fi
+          done
+          if [ "$APPLY" != "APPLY" ]; then echo "DRY RUN - nothing changed."; exit 0; fi
+          for f in $FILES; do
+            git checkout "$FROM" -- "$f" 2>/dev/null && echo "restored $f" || echo "skip $f"
+          done
+          git checkout HEAD -- .github 2>/dev/null || true
+          git add -A
+          if git diff --cached --quiet; then echo "nothing to do"; else git commit -m "fix(restore): re-apply assets lost in the restore (icons, IndexNow, redirects, dataset, Monetag)"; git push; fi
