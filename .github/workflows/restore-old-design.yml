@@ -1,8 +1,9 @@
 name: Restore old design (pre-redesign)
 
 # Restores the repo to the state just BEFORE the Astro redesign commit
-# 6d1a43be (10 Oct 2026) - the design the owner prefers.
+# (10 Oct 2026) - the design the owner prefers.
 # Reversible: the new state stays in git history.
+# NOTE: .github/ is left untouched (GITHUB_TOKEN cannot write workflow files).
 
 on:
   workflow_dispatch:
@@ -10,11 +11,11 @@ on:
       target:
         description: 'Commit to restore TO'
         required: false
-        default: '6d1a43be^'
+        default: 'a784238998c516edfbb228f76823c9e062ebf5fc'
       apply:
         description: 'Type APPLY to actually push (else dry-run)'
         required: true
-        default: ''
+        default: 'dry'
 
 jobs:
   restore:
@@ -33,16 +34,13 @@ jobs:
           git config user.name "skm-bot"
           git config user.email "bot@skmstudioservices.local"
           echo "Restoring to: $TARGET"
-          echo "--- files that will be RESTORED ---"
-          git diff --stat "$TARGET" HEAD | tail -30
-          echo "--- files ADDED since (will be removed) ---"
-          git diff --diff-filter=A --name-only "$TARGET" HEAD | head -40
           if [ "$APPLY" != "APPLY" ]; then
-            echo "DRY RUN - nothing changed. Re-run with apply=APPLY to push."
-            exit 0
+            echo "--- would RESTORE ---"; git diff --stat "$TARGET" HEAD | tail -25
+            echo "DRY RUN - nothing changed."; exit 0
           fi
           git checkout "$TARGET" -- .
           git diff --diff-filter=A --name-only "$TARGET" HEAD | while read -r f; do [ -n "$f" ] && rm -f "$f"; done
+          # keep the CURRENT workflow files - token can't write .github/workflows
+          git checkout HEAD -- .github 2>/dev/null || true
           git add -A
-          git diff --cached --quiet && echo "nothing to restore" || git commit -m "revert(design): restore the pre-10-Oct design (undo Astro redesign)"
-          git push
+          if git diff --cached --quiet; then echo "nothing to restore"; else git commit -m "revert(design): restore the pre-10-Oct design (undo Astro redesign)"; git push; fi
